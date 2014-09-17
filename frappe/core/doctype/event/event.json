@@ -188,6 +188,7 @@
   {
    "fieldname": "event_individuals", 
    "fieldtype": "Table", 
+   "hidden": 1, 
    "label": "Event Individuals", 
    "no_copy": 0, 
    "oldfieldname": "event_individuals", 
@@ -246,7 +247,7 @@
  "icon": "icon-calendar", 
  "idx": 1, 
  "in_create": 1, 
- "modified": "2014-06-20 06:40:05.415405", 
+ "modified": "2014-09-15 21:59:52.565664", 
  "modified_by": "Administrator", 
  "module": "Core", 
  "name": "Event", 

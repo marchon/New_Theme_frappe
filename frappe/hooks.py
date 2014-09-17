@@ -67,6 +67,9 @@ doc_events = {
 	},
 	"Website Route Permission": {
 		"on_update": "frappe.website.doctype.website_group.website_group.clear_cache_on_doc_event"
+	},
+	"Event":{
+		"on_update":"frappe.custom_methods.appintment_notification"
 	}
 }
 
