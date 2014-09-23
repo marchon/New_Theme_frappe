@@ -1,5 +1,5 @@
 {
-  "allow_copy": 0, 
+ "allow_copy": 0, 
  "allow_rename": 0, 
  "autoname": "TDI.########", 
  "creation": "2012-07-03 13:30:35", 
@@ -170,7 +170,7 @@
  "in_dialog": 0, 
  "issingle": 0, 
  "max_attachments": 0, 
- "modified": "2014-06-30 05:40:15.471434", 
+ "modified": "2014-09-20 15:34:57.615150", 
  "modified_by": "Administrator", 
  "module": "Core", 
  "name": "ToDo", 
@@ -179,7 +179,7 @@
   {
    "apply_user_permissions": 1, 
    "create": 1, 
-   "delete": 0, 
+   "delete": 1, 
    "email": 1, 
    "export": 0, 
    "permlevel": 0, 

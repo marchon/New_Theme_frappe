@@ -1,0 +1,18 @@
+{
+ "content": null, 
+ "creation": "2014-09-17 20:12:47.158433", 
+ "docstatus": 0, 
+ "doctype": "Page", 
+ "icon": "icon-magic", 
+ "modified": "2014-09-17 20:13:04.900681", 
+ "modified_by": "Administrator", 
+ "module": "Core", 
+ "name": "admin-charts", 
+ "owner": "Administrator", 
+ "page_name": "Admin Charts", 
+ "roles": [], 
+ "script": null, 
+ "standard": "Yes", 
+ "style": null, 
+ "title": "Admin Charts"
+}

@@ -263,6 +263,7 @@ class DbColumn:
 	def default_changed(self, current_def):
 		if "decimal" in current_def['type']:
 			try:
+				# frappe.errprint(float(self.default))
 				return float(current_def['default'])!=float(self.default)
 			except TypeError:
 				return True
