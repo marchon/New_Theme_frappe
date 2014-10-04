@@ -1,11 +1,3 @@
-// frappe.pages['admin-charts'].onload = function(wrapper) {
-// 	frappe.ui.make_app_page({
-// 		parent: wrapper,
-// 		title: 'None',
-// 		single_column: true
-// 	});
-// }
-
 frappe.pages['admin-charts'].onload = function(wrapper) {
 	frappe.ui.make_app_page({
 		parent: wrapper,
@@ -13,18 +5,11 @@ frappe.pages['admin-charts'].onload = function(wrapper) {
 		// single_column: true
 	});
 
-// $("<table class='table table-bordered' style='height:150px; width:800px;'>\
-// 	<tr width='100%'>\
-// 	<td><div class='.layout-main-section'></div>\
-// 	</td><td><div class='.layout-side-section' ></div></td>\
-// 	</tr>\
-// 	</table>")
-
-
 //for the sales chart
-$(wrapper).find(".layout-main").html("<div class='user-settings'  id ='sp_tab'  style='min-height: 200px;'></div>");
-$('<div id="head" style="height:20px; width:600px;" ><b>Sales Details</tr></table></div>').appendTo($(wrapper).find('.layout-main-section'));
-$("<table class='table table-bordered' style='height:150px; width:600px;'>\
+$('<div id="head" style="height:20px; width:85%;" ><b>Sales Details</tr></table></div>').appendTo($(wrapper).find('.layout-main-section'));
+
+
+$("<table class='table table-bordered' style='height:150px; width:85%;'>\
 	<tr width='100%'>\
 	<td width='50%'><div class='user-settings' style='min-height: 150px;' id ='sales_pie_tab' ></div>\
 	</td><td width='50%'><div class='user-settings' style='min-height: 150px;' id ='sales_column_tab' ></div></td>\
@@ -33,18 +18,18 @@ $("<table class='table table-bordered' style='height:150px; width:600px;'>\
 
 
 //for heading
-$('<div id="head" style="height:20px; width:800px;" ><b>Purchase Details</tr></table></div>').appendTo($(wrapper).find('.layout-main-section'));
+$('<div id="head" style="height:20px;width:85%;" ><b>Purchase Details</tr></table></div>').appendTo($(wrapper).find('.layout-main-section'));
 
 //for purchase filters`
-$('<div id="purchase" style="height:50px; width:600px;" >\
-	<table class="table" style="height:5px; width:600px;" >\
+$('<div id="purchase" style="height:50px; width:85%;" >\
+	<table class="table" style="height:5px;width:85%;" >\
 	<tr width="100%"><td width="25%" style="min-height:20px;"><div id ="purchasetab" text-align="left" style="min-height: 10px;min-width:200px" ></div></td>\
 	<td width="25%"><div id ="purchasetab1" text-align="left" style="min-height: 10px;" ></div></td>\
 	<td width="25%"><div id ="purchasetab2" style="min-height: 10px;" ></div></td>\
 	</tr></table></div>').appendTo($(wrapper).find('.layout-main-section'));
 
 //for purchase chart
-$("<table class='table table-bordered' style='height:150px; width:600px;'>\
+$("<table class='table table-bordered' style='height:150px; width:85%;'>\
 	<tr width='100%'><td width='50%'>\
 	<div class='user-settings'  id ='purchase_pie_tab'  style='min-height: 150px;'></div></td>\
 	<td width='50%'><div class='user-settings'  id ='purchase_column_tab'  style='min-height: 150px;'></div></td>\
@@ -55,21 +40,30 @@ $('<div id="head" style="height:20px; width:800px;" ><b>Attendance Details</tr><
 
 
 //for attendance filters`
-$('<div id="attendance" style="height:50px; width:600px;" >\
-	<table class="table" style="height:5px; width:600px;" >\
+$('<div id="attendance" style="height:50px; width:85%" >\
+	<table class="table" style="height:5px; width:85%" >\
 	<tr width="100%"><td width="25%" style="min-height:20px;"><div id ="attendancetab" text-align="left" style="min-height: 10px;min-width:200px" ></div></td>\
 	<td width="25%"><div id ="attendancetab1" text-align="left" style="min-height: 10px;" ></div></td>\
 	<td width="25%"><div id ="attendancetab2" style="min-height: 10px;" ></div></td>\
 	</tr></table></div>').appendTo($(wrapper).find('.layout-main-section'));
 
 //for attendance chart
-$("<div id='attendance2' ><table class='table table-bordered' style='height:150px; width:600px;'>\
+$("<div id='attendance2' ><table class='table table-bordered' style='height:150px; width:85%;'>\
 	<tr width='100%'><td width='100%'>\
 	<div class='user-settings'  id ='attendance_table_tab'  style='min-height: 0px; overflow-y:scroll'></div></td>\
 	</tr>\
 	</table></div>").appendTo($(wrapper).find('.layout-main-section'));
 
-$("<div id='side'></div>").appendTo($(wrapper).find('.layout-side-section'));
+
+// $('<div id="head" style="height:20px; width:800px;" ><b>Chat Tool</tr></table></div>').appendTo($(wrapper).find('.layout-main-section'));
+
+//for chat tool
+$("	<div class='user-settings'  id ='chat_tab'  style='min-height: 0px; width:85%;'>\
+	<a href='#messages/'><b>Click For Chat Tool</a>\
+	</div>").appendTo($(wrapper).find('.layout-main-section'));
+
+
+$("<div id='side' style='min-height: 0px;width:100% '></div>").appendTo($(wrapper).find('.layout-side-section'));
 
 wrapper.this = new frappe.AdminChart(wrapper);	
 }
@@ -87,6 +81,7 @@ frappe.AdminChart = Class.extend({
 	this.make_attendance_filters();
 	this.make_attendance_table_chart();
 	this.show_activities()
+	// this.show_chat_tool()
 	},
 	make_sales_filters: function()
 	{
@@ -293,6 +288,7 @@ frappe.AdminChart = Class.extend({
 					// console.log(r.message)
 					var p = r.message[i];
 					p.image = frappe.utils.get_file_link(frappe.user_info(p.name).image);
+					console.log(p.image)
 					$(repl('<p>\
 						<span class="avatar avatar-small" \
 							title="%(status)s"><img src="%(image)s" /></span>\
@@ -331,7 +327,7 @@ frappe.AdminChart = Class.extend({
 		// $(this.wrapper).find("#attendancetab1").css("width","200px");
 
 	    this.attendance_from_date.$input.on("change", function() {
-	    		// var from_date=me.attendance_from_date.$input.val();
+	    		    		// var from_date=me.attendance_from_date.$input.val();
 			 	var from_date=$(this).val();
 	    // 		if(from_date < to_date)
 			 	// {
@@ -370,5 +366,19 @@ frappe.AdminChart = Class.extend({
 		  		}
 	    	});
 	},
-
+	show_chat_tool: function() 
+	{
+		console.log("in the show_chat_tool ")
+		var me = this;
+		var $body = $(me.wrapper).find('.layout-main-section');
+				$('<h4>Activities</h4><hr>\
+				').appendTo($body);
+				// var p = r.message[i];
+					p.image = frappe.utils.get_file_link(frappe.user_info(p.name).image);
+					$(repl('<p>\
+						<span class="avatar avatar-small" \
+							title="%(status)s"><img src="%(image)s" /></span>\
+						<a>%(subject)s</a> </p>', p))
+						.appendTo($body);
+	},
 });
