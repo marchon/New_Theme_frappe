@@ -19,7 +19,7 @@ def appintment_notification(doc, method):
 	password = frappe.db.get_value('Outgoing Email Settings',None,'mail_password')
 	organizer = "ORGANIZER;CN=organiser:mailto:first"+CRLF+" @gmail.com"
 	fro = "Administrator <first@gmail.com>"
-
+	'''
 	if login and password and doc.get('appointment_list'):
 		dtstamp = datetime.datetime.now()
 		frappe.errprint(doc.starts_on)
@@ -75,3 +75,4 @@ def appintment_notification(doc, method):
 			mailServer.login(login, password)
 			mailServer.sendmail(fro, attendees, msg.as_string())
 			mailServer.close()	
+	'''

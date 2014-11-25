@@ -187,12 +187,12 @@ frappe.core.pages.messages = Class.extend({
 						p.fullname = frappe.user_info(p.name).fullname;
 						p.image = frappe.utils.get_file_link(frappe.user_info(p.name).image);
 						p.name = p.name.replace('@', '__at__');
-						p.status_color = p.has_session ? "green" : "#ddd";
+						p.status_color = p.has_session ? "green" : "#B3B3B3";
 						p.status = p.has_session ? "Online" : "Offline";
 						$(repl('<p>\
 							<span class="avatar avatar-small" \
 								title="%(status)s"><img src="%(image)s" /></span>\
-							<a href="#!messages/%(name)s">%(fullname)s</a>\
+							<a style="color:%(status_color)s" href="#!messages/%(name)s">%(fullname)s</a>\
 							</p>', p))
 							.appendTo($body);
 					}

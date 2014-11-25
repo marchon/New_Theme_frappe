@@ -58,7 +58,7 @@ frappe.views.QueryReport = Class.extend({
 	},
 	make_toolbar: function() {
 		var me = this;
-		this.appframe.set_title_right(__('Refresh'), function() { me.refresh(); });
+		this.appframe.set_title_right(__('Refresh'), function() { window.branch_name=null;me.refresh(); });
 
 		// Edit
 		var edit_btn = this.appframe.add_button(__('Edit'), function() {

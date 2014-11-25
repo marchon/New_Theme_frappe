@@ -99,6 +99,14 @@
    "permlevel": 0
   }, 
   {
+   "fieldname": "branch", 
+   "fieldtype": "Link", 
+   "label": "Branch", 
+   "options": "Branch", 
+   "permlevel": 0, 
+   "precision": ""
+  }, 
+  {
    "fieldname": "change_password", 
    "fieldtype": "Section Break", 
    "label": "Set Password", 
@@ -462,7 +470,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 5, 
- "modified": "2014-09-08 06:07:20.157915", 
+ "modified": "2014-11-24 23:32:04.551623", 
  "modified_by": "Administrator", 
  "module": "Core", 
  "name": "User", 

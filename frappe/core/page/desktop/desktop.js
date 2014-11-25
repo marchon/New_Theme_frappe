@@ -31,6 +31,7 @@ frappe.desktop.render = function() {
 	$("#icon-grid").empty();
 
 	document.title = "Desktop";
+	frappe.desktop.show_ticker()
 	var add_icon = function(m) {
 		var module = frappe.get_module(m);
 
@@ -106,6 +107,26 @@ frappe.desktop.render = function() {
 	});
 
 	$(document).trigger("desktop-render");
+}
+
+frappe.desktop.show_ticker = function(){
+	frappe.call({
+		method: 'mreq.mreq.page.mail_ticker_manager.mail_ticker_manager.get_ticker',
+		args:{'user':user},
+		callback: function(r){
+			console.log(r.message.is_ticker_enable)
+			if(r.message.ticker && r.message.is_ticker_enable == 1){
+				// $('<div id = "ticker" width="100%" height="20%"><marquee><h3>'+r.message.ticker+'</h3></marquee></div>').appendTo($("#body_div"));
+				$("#ticker").html("<div style='display:inline-block;width:95%'><marquee><b>"+r.message.ticker+"</b></marquee></div>");
+				$("<div width='5%' style='display:inline-block;'><button id = 'back' style ='display:inline-block;margin-left:70%;' class='btn btn-small btn-default'>\
+						<i class='icon-remove'></i> </button></div>")
+				.appendTo($("#ticker"))
+				.click(function() {
+					frappe.desktop.hide_ticker()
+				})
+			}
+		}
+	})
 }
 
 frappe.desktop.show_all_modules = function() {

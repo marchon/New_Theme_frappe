@@ -74,7 +74,7 @@ frappe.upload = {
 			msgprint(__("Please attach a file or set a URL"));
 			return;
 		}
-
+		console.log([fileobj, args, opts])
 		var dataurl = null;
 		var _upload_file = function() {
 			if(opts.on_attach) {

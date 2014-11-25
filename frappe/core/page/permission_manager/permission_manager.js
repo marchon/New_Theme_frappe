@@ -61,6 +61,7 @@ frappe.PermissionEngine = Class.extend({
 			setTimeout(function() { me.set_from_route(); }, 500);
 			return;
 		}
+		
 		if(frappe.get_route()[1]) {
 			this.doctype_select.val(frappe.get_route()[1]);
 		} else if(frappe.route_options) {

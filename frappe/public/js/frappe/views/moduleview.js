@@ -209,7 +209,7 @@ frappe.views.moduleview.ModuleView = Class.extend({
 					$list_item.find(".list-item-description").remove();
 					$list_item.find(".list-item-name").removeClass("col-sm-6").addClass("col-sm-12");
 				}
-
+				// alert("hihoih")
 				if(item.onclick) {
 					$list_item.find("a")
 						.on("click", function() {
@@ -234,7 +234,7 @@ frappe.views.moduleview.ModuleView = Class.extend({
 							}
 						}
 					}
-
+		
 					$list_item.find("a")
 						.attr("href", "#" + route)
 				}
