@@ -83,7 +83,10 @@ frappe.ui.TreeNode = Class.extend({
 		// label with icon
 		var me= this;
 		var icon_html = '<i class="icon-fixed-width icon-file"></i>';
-		
+		if(this.image_mapper[this.label]){
+			var icon_html = '<img width="30" height="30" src="'+this.image_mapper[this.label]+'">';	
+		}
+	
 		if(this.expandable) {
 			if(me.image_mapper[me.label])
 				icon_html = '<img width="30" height="30" src="'+me.image_mapper[me.label]+'">';
@@ -91,7 +94,7 @@ frappe.ui.TreeNode = Class.extend({
 		$(icon_html + ' <a class="tree-label">' + this.label + "</a>").
 			appendTo(this.$a);
 
-		this.$a.find('.tree-label').click(function(){
+		this.$a.find('.tree-label').hover(function(){
 			$('#image_view').html('<image style="border:5px;width:300px; height:250px; solid #E0E0E0" src="'+me.image_mapper[me.label]+'">')
 		})
 			
