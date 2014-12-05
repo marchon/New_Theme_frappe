@@ -1,0 +1,21 @@
+{
+ "content": null, 
+ "creation": "2014-12-02 14:37:54.971817", 
+ "docstatus": 0, 
+ "doctype": "Page", 
+ "modified": "2014-12-02 14:42:07.645818", 
+ "modified_by": "Administrator", 
+ "module": "Core", 
+ "name": "imgcanvas", 
+ "owner": "Administrator", 
+ "page_name": "Imgcanvas", 
+ "roles": [
+  {
+   "role": "All"
+  }
+ ], 
+ "script": null, 
+ "standard": "Yes", 
+ "style": null, 
+ "title": "Image Canvas"
+}
