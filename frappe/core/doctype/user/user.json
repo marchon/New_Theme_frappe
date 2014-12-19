@@ -76,6 +76,28 @@
    "permlevel": 0
   }, 
   {
+   "fieldname": "branch", 
+   "fieldtype": "Link", 
+   "label": "Branch", 
+   "options": "Branch", 
+   "permlevel": 0, 
+   "precision": ""
+  }, 
+  {
+   "fieldname": "disable_ticker", 
+   "fieldtype": "Check", 
+   "label": "Disable Ticker", 
+   "permlevel": 0, 
+   "precision": ""
+  }, 
+  {
+   "fieldname": "ticker", 
+   "fieldtype": "Data", 
+   "label": "Ticker", 
+   "permlevel": 0, 
+   "precision": ""
+  }, 
+  {
    "fieldname": "column_break0", 
    "fieldtype": "Column Break", 
    "oldfieldtype": "Column Break", 
@@ -97,14 +119,6 @@
    "fieldtype": "Select", 
    "label": "Timezone", 
    "permlevel": 0
-  }, 
-  {
-   "fieldname": "branch", 
-   "fieldtype": "Link", 
-   "label": "Branch", 
-   "options": "Branch", 
-   "permlevel": 0, 
-   "precision": ""
   }, 
   {
    "fieldname": "change_password", 
@@ -470,7 +484,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 5, 
- "modified": "2014-11-24 23:32:04.551623", 
+ "modified": "2014-12-19 15:10:01.025218", 
  "modified_by": "Administrator", 
  "module": "Core", 
  "name": "User", 
