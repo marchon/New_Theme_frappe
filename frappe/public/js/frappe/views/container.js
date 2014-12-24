@@ -28,7 +28,6 @@ frappe.views.Container = Class.extend({
 			$(page).bind('hide', onhide);
 		page.label = label;
 		frappe.pages[label] = page;
-
 		return page;
 	},
 	change_to: function(label) {
@@ -77,6 +76,7 @@ frappe.views.Container = Class.extend({
 	set_full_width: function() {
 		// limit max-width to 970px for most pages
 		$("body").toggleClass("limit-container-width", !$(frappe.container.page).find(".app-page.full-width").length);
+		frappe.ui.set_container_width();
 	}
 });
 

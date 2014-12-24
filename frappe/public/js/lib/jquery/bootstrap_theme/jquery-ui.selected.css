@@ -869,7 +869,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 
 .ui-datepicker td .ui-state-active{
-  background:#BFBFBF;
+  background:#4B8DF8;
   margin-bottom:0px;
   font-size:normal;
   text-shadow: 0px;
@@ -882,7 +882,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 .ui-datepicker td .ui-state-hover {
     color: #ffffff;
     background: #0064cd;
-    background-color: #0064cd;
+    background-color: #BFBFBF;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
     border-color: #0064cd #0064cd #003f81;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);

@@ -69,6 +69,10 @@ frappe.Application = Class.extend({
 		this.start_notification_updates();
 
 		$(document).trigger('app_ready');
+                route = frappe.get_route()
+                if(route[1]||frappe.get_cookie("module")){
+                  frappe.ui.make_sidebar(route[1])
+                }
 	},
 
 	set_user_display_settings: function() {
