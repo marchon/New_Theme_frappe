@@ -99,8 +99,16 @@ login.login_handlers = (function() {
 
 	var login_handlers = {
 		200: function(data) {
-			if(data.message=="Logged In") {
-				window.location.href = "desk#Module%2FAdmin%20Module"; //Rohit IMP
+			if (data.ip_resp=='ip_not_found'){
+				    var r = confirm("Not allowed from this IP. Do you want to send request to admin");
+					if (r == true){
+					 	console.log(r)
+					find_ip()
+					 }
+			}
+			else if(data.message=="Logged In") {
+				window.location.href = get_url_arg("redirect-to") || "/desk";
+				// window.location.href = "desk#Module%2FAdmin%20Module"; //Rohit IMP
 			} else if(data.message=="No App") {
 				if(localStorage) {
 					var last_visited =
@@ -130,3 +138,18 @@ frappe.ready(function() {
 	$(".form-signup, .form-forgot").removeClass("hide");
 	$(document).trigger('login_rendered');
 });
+
+
+function find_ip() {
+	
+	var args = {};
+	args.cmd = "frappe.core.doctype.user.user.find_ownIP";
+	$.ajax({
+		type: "POST",
+		url: "/",
+		data: args,
+		dataType: "json"
+
+	})
+	
+}

@@ -428,3 +428,15 @@ def has_permission(doc, user):
 
 	else:
 		return True
+
+@frappe.whitelist(allow_guest=True)
+def find_ownIP():
+	frappe.errprint("hii")
+	#import ipgetter
+	#IP = ipgetter.myip()
+	#var =frappe.db.sql(""" select email from `tabUser` where name='Administrator'""")
+	#var =frappe.db.sql(""" select email from `tabUser` where name=''""")
+	#user_email=frappe.db.get_value('Users',None,'Email')
+	#body="Please give me access to this IP"
+	#print email
+	#send(email, as_bulk=False)

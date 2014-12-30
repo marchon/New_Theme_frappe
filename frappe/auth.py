@@ -12,7 +12,7 @@ import frappe.utils.user
 from frappe import conf
 from frappe.sessions import Session, clear_sessions, delete_session
 from frappe.modules.patch_handler import check_session_stopped
-
+from frappe.utils import cint
 from urllib import quote
 
 class HTTPRequest:
@@ -87,6 +87,7 @@ class LoginManager:
 	def post_login(self):
 		self.run_trigger('on_login')
 		self.validate_ip_address()
+		self.allow_ip_address()
 		self.validate_hour()
 		self.make_session()
 		self.set_user_info()
@@ -165,6 +166,30 @@ class LoginManager:
 				return
 
 		frappe.throw(_("Not allowed from this IP Address"), frappe.AuthenticationError)
+
+	def allow_ip_address(self):
+		"""check if IP Address is valid"""
+		if cint(frappe.db.get_value('Global Defaults',None,'hardware_validation_required'))==1:
+			ip_list = frappe.db.get_value('User', self.user, 'allowed_ip_address')
+			#frappe.throw(ip_list)
+			if not ip_list:
+				return
+			ip_list = ip_list.replace(",", "\n").split('\n')
+			ip_list = [i.strip() for i in ip_list]
+			get_public_ip = self.get_public_ip()
+			#frappe.throw(get_public_ip)
+			if get_public_ip not in ip_list:
+				frappe.local.response['ip_resp']='ip_not_found'	
+				
+				#frappe.throw(_("Not allowed from this IP Address"), frappe.AuthenticationError)
+		
+			
+
+	def get_public_ip(self):
+		import ipgetter
+		IP = ipgetter.myip()
+		return IP
+		
 
 	def validate_hour(self):
 		"""check if user is logging in during restricted hours"""

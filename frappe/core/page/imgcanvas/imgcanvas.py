@@ -3,26 +3,37 @@ import frappe, frappe.utils, os
 from frappe import conf
 from frappe.model.document import Document
 from frappe.utils.file_manager import delete_file_data_content
+from frappe.utils.file_manager import save_file
 import base64
+import random
+import string
 
 
 @frappe.whitelist()
-def save_img(content):
-	h=os.path.join(os.path.join("bench_smart","public","files"))
-	content = content.split(",")[1]
-	fh = open(h+"/imageToSave88.png", "wb")
-	fh.write(content.decode('base64'))
-	fh.close()
-	# frappe.errprint("done")
-	# return fh
+def save_img(content, work_order):
+	content = get_uploadedImage_content(content, work_order)
+	fname = get_RandomString()
+	if content:
+		image = save_file(fname, content, 'Work Order', work_order)
+	return "Done"
+
+def get_RandomString():
+	char_set = string.ascii_uppercase + string.digits
+	return ''.join(random.sample(char_set*6, 6))
 
 @frappe.whitelist()
-def get_img():
-	# frappe.errprint("fname in py")
-	img_list=frappe.db.sql("select file_url from `tabFile Data` where attached_to_doctype='Item'",as_list=1)
-	# frappe.errprint(img_list)
-	return{
-		"img_list": img_list
-	}
+def get_uploadedImage_content(filedata, filename):
+	filedata = filedata.rsplit(",", 1)[1]
+	uploaded_content = base64.b64decode(filedata)
+	return uploaded_content
 
- 
+@frappe.whitelist()
+def get_img(work_order):
+	if work_order:
+		item = frappe.db.get_value('Work Order', work_order, 'item_code')
+		img_list=frappe.db.sql("select file_url from `tabFile Data` where attached_to_doctype='Item' and attached_to_name='%s'"%(item),as_list=1)
+		frappe.errprint([img_list])
+	if img_list:	
+		return{
+			"img_list": img_list
+		}

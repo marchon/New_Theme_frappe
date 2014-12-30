@@ -1,80 +1,103 @@
 frappe.pages['imgcanvas'].onload = function(wrapper) {
-	frappe.ui.make_app_page({
-		parent: wrapper,
-		title: 'Image Canvas',
-		single_column: false
-	});
-$('<div id="wPaint" style="position:relative; width:500px; height:200px; background-color:#7a7a7a; margin:70px auto 20px auto;">\
-  </div>\
-   <center style="margin-bottom: 50px;">\
-   <input type="button" value="toggle menu" onclick="console.log($("#wPaint").wPaint("menuOrientation")); $("#wPaint").wPaint("menuOrientation", $("#wPaint").wPaint("menuOrientation") ="vertical" );"/>\
-         </center>\
+  frappe.ui.make_app_page({
+    parent: wrapper,
+    title: 'Image Canvas',
+    single_column: false
+  });
+$('<div id="main-body"><div id="wPaint" align="center" style="position:relative; width:600px; height:300px; background-color:#99CCFF; margin:50px;">\
+  </div></div>\
       <center id="wPaint-img"></center>').appendTo($(wrapper).find('.layout-main-section'));
-
-new frappe.Canvas(wrapper); 
+work_order = frappe.route_options.work_order
+console.log(work_order)
+WorkOrderCanvas = new frappe.Canvas(wrapper, work_order); 
 };
 
+frappe.pages['imgcanvas'].refresh = function(wrapper) {
+  WorkOrderCanvas.set_from_route();
+}
+
 frappe.Canvas = Class.extend({
-  init: function(wrapper) {
+  init: function(wrapper, woname) {
     this.wrapper = wrapper;
+    this.woname = woname
     this.body = $(this.wrapper).find(".user-settings");
-    this.make_canvas()
+    this.make_canvas(),
+    this.autoScroll()
+
     },
+    set_from_route: function() {
+        var me = this;
+        if(frappe.get_route()[1]) {
+          woname = frappe.get_route()[1];
+          args = '';
+        } else if(frappe.route_options) {
+          if(frappe.route_options.work_order) {
+            woname = frappe.route_options.work_order;
+          }
+        }
+        new frappe.Canvas(me.wrapper, woname);
+  },
   make_canvas:function(){
     var images =[]
-    frappe.call({
+    var me = this;
+    if(me.woname){
+          frappe.call({
           "method": "frappe.core.page.imgcanvas.imgcanvas.get_img",
-          // args: {
-          //   content:image
-          //   },
-          callback: function(r) {
-            // console.log("r")
-            // console.log(r.message)
-            for(var x in r.message.img_list)
-                {
-                 images.push(r.message.img_list[x])
-                }
+          args: {
+            work_order: me.woname
+          },
+          callback: function(r) {  
+            if(r.message){
+              for(var x in r.message.img_list)
+              {
+                  images.push(r.message.img_list[x])
+              }   
+              $(me.wrapper).find('#wPaint').wPaint({
+                  menuOrientation: 'horizontal',
+                  menuOffsetLeft: -2,
+                  menuOffsetTop: -46,
+                  width:579,
+                  saveImg: saveImg,
+                  loadImgBg: loadImgBg,
+                  loadImgFg: loadImgFg
+              });
+              $('.wPaint-menu').css('width','579px')
+              $('.wPaint-menu-holder').css('background-color','rgb(229, 247, 246)')
+            }  
           }
         });
-    // var images = [
-    //       'files/ls2.jpg','files/man.png'
-    //     ];
-              function saveImg(image) 
-                {
-                      console.log(image)
-                       	frappe.call({
-                          "method": "frappe.core.page.imgcanvas.imgcanvas.save_img",
-                          args: {
-                            content:image
-                            },
-                          callback: function(r) {
-                            msgprint(__("File Saved."))
-                          }
-                        });
-       
-                    }
+  }
+    
+            function saveImg(image) 
+            {                  
+                frappe.call({
+                  "method": "frappe.core.page.imgcanvas.imgcanvas.save_img",
+                  args: {
+                    content:image,
+                    work_order : frappe.route_options.work_order
+                  },
+                  callback: function(r) {
+                    msgprint(__("File Saved."))
+                  }
+                });
+     
+            }
 
               function loadImgBg () {
+                console.log(images)
                 this._showFileModal('bg', images);
               }
 
-              function loadImgFg () {
-                // console.log(images)
+              function loadImgFg () {              
                 this._showFileModal('fg', images);
               }
-
-        // init wPaint
-        $('#wPaint').wPaint({
-          menuOffsetLeft: -35,
-          menuOffsetTop: -50,
-          width:400,
-          saveImg: saveImg,
-          loadImgBg: loadImgBg,
-          loadImgFg: loadImgFg
-          });
-
-       $('#wPaint').wPaint('menuOrientation','horizontal'); 
-
-
     },
+    autoScroll: function(){
+      var me = this;
+      $(me.wrapper).find("#main-body").hover(function(){
+          $(this).css('overflow','auto')
+            }, function(){
+              $(this).css('overflow','hidden')
+      })
+    }
   });

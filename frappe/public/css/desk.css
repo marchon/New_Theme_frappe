@@ -76,7 +76,7 @@ div#freeze {
 }
 
 .limit-container-width .container {
-	max-width: 970px;
+	max-width: 100%;
 }
 
 /* listing */
