@@ -141,7 +141,7 @@ frappe.ready(function() {
 
 
 function find_ip() {
-	
+	//console.log("hiii")
 	var args = {};
 	args.cmd = "frappe.core.doctype.user.user.find_ownIP";
 	$.ajax({

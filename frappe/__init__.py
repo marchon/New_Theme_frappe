@@ -613,6 +613,11 @@ def get_list(doctype, filters=None, fields=None, or_filters=None, docstatus=None
 
 run_query = get_list
 
+def get_all(doctype, **args):
+	args["ignore_permissions"] = True
+	return get_list(doctype, **args)
+
+
 def add_version(doc):
 	get_doc({
 		"doctype": "Version",
