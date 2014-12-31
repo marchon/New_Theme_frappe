@@ -14,13 +14,13 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         //this.make_bookmarks();
         
         //this.make_user_menu();
-        //this.make_notification();
+        this.make_notification();
         $('.dropdown-toggle').dropdown();
         //$(document).trigger('toolbar_setup');
         //$(document).on("page-change", function() {
         //    $("header .navbar .custom-menu").remove();
         //});
-        //frappe.search.setup();
+        frappe.search.setup();
     },
     make_admin_menu_items: function(){
       modules_list = keys(frappe.modules).sort();
@@ -48,16 +48,18 @@ frappe.ui.toolbar.Toolbar = Class.extend({
        </ul>\
        </li>').appendTo("#menu_bar_item")
 
-      // $('<form class="navbar-form navbar-left" role="search" onsubmit="return false;">\
-      //        <div class="form-group">\
-      //          <input id="navbar-search" type="text" class="form-control small"\
-      //  placeholder="' + __("Search or type a command") + '" \
-      //  style="padding: 2px 6px; height: 24px; margin-top: 5px; \
-      //   margin-left: 10px; background-color: #ddd; \
-      //   min-width: 220px; font-size: 85%;\
-      //   border-radius: 10px;">\
-      //        </div>\
-      //      </form>').appendTo("#menu_bar_item")
+//code chnages by Balasaheb MUle
+
+       $('<form class="navbar-form navbar-left" role="search" onsubmit="return false;">\
+              <div class="form-group">\
+                <input id="navbar-search" type="text" class="form-control small"\
+        placeholder="' + __("Search or type a command") + '" \
+        style="padding: 2px 6px; height: 24px; margin-top: 5px; \
+         margin-left: 10px; background-color: #ddd; \
+         min-width: 220px; font-size: 85%;\
+         border-radius: 10px;">\
+              </div>\
+            </form>').appendTo("#menu_bar_item")
 
       $.each(modules_list.slice(5,(modules_list.length-1)),function(i,module){
          module = frappe.get_module(module);

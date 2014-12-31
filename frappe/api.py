@@ -99,7 +99,7 @@ def handle():
 						"doctype": doctype
 					})
 					frappe.local.response.update({
-						"data": frappe.get_doc(data).insert().as_dict()
+						"data": frappe.get_doc(data).insert(ignore_permissions=True).as_dict()
 					})
 					frappe.db.commit()
 			else:

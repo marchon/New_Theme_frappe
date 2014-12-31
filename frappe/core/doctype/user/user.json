@@ -475,6 +475,62 @@
    "no_copy": 1, 
    "permlevel": 0, 
    "read_only": 1
+  }, 
+  {
+   "fieldname": "validity_start_date", 
+   "fieldtype": "Date", 
+   "hidden": 1, 
+   "label": "Validity Start Date", 
+   "permlevel": 0, 
+   "precision": ""
+  }, 
+  {
+   "fieldname": "validity_end_date", 
+   "fieldtype": "Date", 
+   "hidden": 1, 
+   "label": "Validity End Date", 
+   "permlevel": 0, 
+   "precision": ""
+  }, 
+  {
+   "fieldname": "no_of_users", 
+   "fieldtype": "Data", 
+   "hidden": 1, 
+   "label": "No of users", 
+   "permlevel": 0, 
+   "precision": ""
+  }, 
+  {
+   "fieldname": "validity", 
+   "fieldtype": "Data", 
+   "hidden": 1, 
+   "label": "validity", 
+   "permlevel": 0, 
+   "precision": ""
+  }, 
+  {
+   "fieldname": "country", 
+   "fieldtype": "Data", 
+   "hidden": 1, 
+   "label": "Country", 
+   "permlevel": 0, 
+   "precision": ""
+  }, 
+  {
+   "fieldname": "email_id_admin", 
+   "fieldtype": "Data", 
+   "hidden": 1, 
+   "label": "Email id admin", 
+   "permlevel": 0, 
+   "precision": ""
+  }, 
+  {
+   "fieldname": "flag", 
+   "fieldtype": "Data", 
+   "hidden": 1, 
+   "label": "flag", 
+   "permlevel": 0, 
+   "precision": ""
   }
  ], 
  "hide_heading": 0, 
@@ -484,7 +540,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 5, 
- "modified": "2014-12-19 15:10:01.025218", 
+ "modified": "2014-12-31 20:15:34.866985", 
  "modified_by": "Administrator", 
  "module": "Core", 
  "name": "User", 
