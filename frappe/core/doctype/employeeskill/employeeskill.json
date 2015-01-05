@@ -28,15 +28,7 @@
    "precision": ""
   }, 
   {
-   "fieldname": "item_name", 
-   "fieldtype": "Read Only", 
-   "in_list_view": 1, 
-   "label": "Item Name", 
-   "options": "item_code.item_name", 
-   "permlevel": 0, 
-   "precision": ""
-  }, 
-  {
+   "description": "Per Unit", 
    "fieldname": "time", 
    "fieldtype": "Int", 
    "in_list_view": 1, 
@@ -45,9 +37,11 @@
    "precision": ""
   }, 
   {
+   "description": "Per Unit", 
    "fieldname": "cost", 
    "fieldtype": "Currency", 
    "label": "Cost", 
+   "options": "", 
    "permlevel": 0, 
    "precision": "2"
   }
@@ -59,7 +53,7 @@
  "is_submittable": 0, 
  "issingle": 0, 
  "istable": 0, 
- "modified": "2014-11-09 20:06:54.484806", 
+ "modified": "2015-01-02 15:49:47.167641", 
  "modified_by": "Administrator", 
  "module": "Core", 
  "name": "EmployeeSkill", 

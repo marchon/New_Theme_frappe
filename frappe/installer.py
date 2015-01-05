@@ -70,7 +70,9 @@ def import_db_from_sql(source_sql, verbose):
 	db_name = frappe.conf.db_name
 	if not source_sql:
 		source_sql = os.path.join(os.path.dirname(frappe.__file__), 'data', 'Framework.sql')
+		production_forecast_sql = os.path.join(os.path.dirname(frappe.__file__), 'data', 'Production_Forecast.sql')
 	DbManager(frappe.local.db).restore_database(db_name, source_sql, db_name, frappe.conf.db_password)
+	DbManager(frappe.local.db).restore_database(db_name, production_forecast_sql, 'root', 'password')
 	if verbose: print "Imported from database %s" % source_sql
 
 def make_connection(root_login, root_password):
