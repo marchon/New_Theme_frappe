@@ -34,7 +34,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         //$(document).on("page-change", function() {
         //    $("header .navbar .custom-menu").remove();
         //});
-        //frappe.search.setup();
+        frappe.search.setup();
     },
     make_admin_menu_items: function(){
       modules_list = keys(frappe.modules).sort();
@@ -44,7 +44,6 @@ frappe.ui.toolbar.Toolbar = Class.extend({
          module = frappe.get_module(module);
          custom_module_list = {'Admin Module':'admin-charts', 'Selling':'sales-dashboard', 'HR':'', 'Accounts':'account-dashboard', 'Manufacturing':'Form/Work Management', 'Stock':'Form/MR View'}
          if(module && module_name in custom_module_list){
-          console.log(custom_module_list[module_name])
            $('<li class="dropdown dropdown-extended dropdown-inbox">\
            <a href="#" data-name="'+module.name+'" data-role="top_menu_item" data-link="'+module.link+'" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" href=#"'+custom_module_list[module_name]+'">\
              <i class="'+module.icon+'"></i>\
@@ -65,20 +64,23 @@ frappe.ui.toolbar.Toolbar = Class.extend({
        </ul>\
        </li>').appendTo("#menu_bar_item")
 
-      // $('<form class="navbar-form navbar-left" role="search" onsubmit="return false;">\
-      //        <div class="form-group">\
-      //          <input id="navbar-search" type="text" class="form-control small"\
-      //  placeholder="' + __("Search or type a command") + '" \
-      //  style="padding: 2px 6px; height: 24px; margin-top: 5px; \
-      //   margin-left: 10px; background-color: #ddd; \
-      //   min-width: 220px; font-size: 85%;\
-      //   border-radius: 10px;">\
-      //        </div>\
-      //      </form>').appendTo("#menu_bar_item")
+      $('<form class="navbar-form navbar-left" role="search" onsubmit="return false;">\
+             <div class="form-group">\
+               <input id="navbar-search" type="text" class="form-control small"\
+       placeholder="' + __("Search or type a command") + '" \
+       style="padding: 2px 6px; height: 24px; margin-top: 5px; \
+        margin-left: 10px; background-color: #ddd; \
+        min-width: 120px; font-size: 85%;\
+        border-radius: 10px;">\
+             </div>\
+           </form>').appendTo("#menu_bar_item")
 
       $.each(modules_list.slice(5,(modules_list.length-1)),function(i,module){
+         module_name = module
          module = frappe.get_module(module);
-         if(module){
+         custom_module_list = {'Cashier Or Reception Module':'1', 'Messages':'2', 'Mreq':'3', 'Notes':'4', 'Projects':'5', 'Support':'6', 'To Do':'7', 'Tools Management':'8'}
+         
+         if(module && module_name in custom_module_list){
            $('<li>\
            <a data-name="'+module.name+'" data-role="top_menu_item" href="#" data-name="'+module.label+'" data-link="'+module.link+'" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">\
              <i class="'+module.icon+'"></i>\
@@ -89,9 +91,11 @@ frappe.ui.toolbar.Toolbar = Class.extend({
       })
 
       $("[data-role='top_menu_item']").on("click",function(){
+        custom_module_list = {'Admin Module':'#admin-charts', 'Selling':'#sales-dashboard', 'HR':'#', 'Accounts':'#account-dashboard', 'Manufacturing':'#Form/Work Management', 'Stock':'#Form/MR View'}  
         document.cookie = "module=" + $(this).attr("data-name");
         frappe.ui.make_sidebar($(this).attr("data-name"))
         $("body").attr("refresh_navbar","false")
+        window.open(custom_module_list[$(this).attr("data-name")], '_self')
       })
     },
     make_admin_nav: function(){
