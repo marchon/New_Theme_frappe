@@ -40,8 +40,8 @@ Begin
 declare vDelivery_date varchar(20);
 declare vqty  integer;
 declare vrqty  integer;
-declare vCapacity integer default 15;
-declare rCapacity integer default 15;
+declare vCapacity integer;
+declare rCapacity integer;
 declare rstr varchar(1000) default '';
 declare mstr varchar(1000) default '';
 declare bDate varchar(20);
@@ -64,15 +64,17 @@ declare vCount integer default 0;
 declare v2Count integer default 1;
 declare vPrevAdjusted integer;
 declare vPostAdjusted integer;
+declare vAdjusted integer;
 declare vDeliveries integer;
 declare vPrevCount integer;
 declare vPostCount integer;
 declare vRemCount integer;
 declare vColorDesc varchar(20);
+declare vHolidayFlag int default 0;
 declare cursor1 cursor for 
-SELECT sii.delivery_date,SUM(sii.qty) AS qty,SUM(sii.qty) AS rqty from `tabSales Invoice Item` sii where sii.docstatus=1 and   delivery_date IS NOT NULL and sii.item_code=pitem_code and not exists(select true from `tabProduction Dashboard Details` pdd where sales_invoice_no=sii.parent and article_code=sii.item_code and pdd.process_status='Completed' ) GROUP BY  sii.delivery_date ORDER BY sii.delivery_date; 
+SELECT sii.tailoring_delivery_date,SUM(sii.tailoring_qty) AS qty,SUM(sii.tailoring_qty) AS rqty from `tabSales Invoice Items` sii where sii.docstatus=1 and   tailoring_delivery_date IS NOT NULL and sii.tailoring_item_code=pitem_code and not exists(select true from `tabProduction Dashboard Details` pdd where sales_invoice_no=sii.parent and article_code=sii.tailoring_item_code and pdd.process_status='Completed' ) GROUP BY  sii.tailoring_delivery_date ORDER BY sii.tailoring_delivery_date; 
 declare continue handler for not found  set no_more_rows := 1; 
-SELECT SUM(sii.qty)  into vPending from `tabSales Invoice Item` sii where sii.docstatus=1 and  sii.delivery_date IS NOT NULL and sii.item_code=pitem_code and not exists(select true from `tabProduction Dashboard Details` pdd where sales_invoice_no=sii.parent and article_code=sii.item_code and pdd.process_status='Completed' ) ;
+SELECT SUM(sii.tailoring_qty)  into vPending from `tabSales Invoice Items` sii where sii.docstatus=1 and  sii.tailoring_delivery_date IS NOT NULL and sii.tailoring_item_code=pitem_code and not exists(select true from `tabProduction Dashboard Details` pdd where sales_invoice_no=sii.parent and article_code=sii.tailoring_item_code and pdd.process_status='Completed' ) ;
 select round(8/(sum(time)/60)) into vCapacity from(select process,(1/(sum(1/time))) as time from tabEmployeeSkill where item_code=pitem_code  group by  process)foo;
   
 open cursor1; 
@@ -95,13 +97,21 @@ while vPending>=0 do
 
 set date_cur_str := date_format(date(date_cur),'%Y-%m-%d');
 set vPending := vPending-vCapacity;   
-set rCapacity := 15;
+set rCapacity := vCapacity;
 set i:=1;
 set vPostAdjusted:=0;
 set vPrevAdjusted:=0;
 set fAdjusted :=0;
 
-while i<=del_no and rCapacity>0 do
+if (select true from tabHoliday where holiday_date=date_cur_str) then
+ set vHolidayFlag :=1;
+else
+ set vHolidayFlag :=0;
+end if; 
+
+
+
+while i<=del_no and rCapacity>0 and vHolidayFlag=0 do
 
 
 set bDate :=SPLIT_STR(SPLIT_STR(mstr,';',i),':',1);
@@ -110,19 +120,19 @@ set bRqty :=cast(SPLIT_STR(SPLIT_STR(mstr,';',i),':',3) as int);
 
 if  bRqty>0 then 
 if rCapacity>bRqty  then
-	set rCapacity := rCapacity-bRqty;	
-	set fAdjusted :=fAdjusted+bRqty;	
-	set dAdjusted :=bRqty;	
-	set bRqty :=0;
-	
+  set rCapacity := rCapacity-bRqty; 
+  set fAdjusted :=fAdjusted+bRqty;  
+  set dAdjusted :=bRqty;  
+  set bRqty :=0;
+  
 else if rCapacity<=bRqty  then 
-	set bRqty := bRqty-rCapacity;
-	set fAdjusted :=fAdjusted+rCapacity;
-	set dAdjusted :=rCapacity;	
-	set rCapacity :=0;
-	
-end if;	
-end if;	
+  set bRqty := bRqty-rCapacity;
+  set fAdjusted :=fAdjusted+rCapacity;
+  set dAdjusted :=rCapacity;  
+  set rCapacity :=0;
+  
+end if; 
+end if; 
 
 set dRemaining :=bRqty-dAdjusted;
 
@@ -135,11 +145,13 @@ end if;
 if date_cur_str<bDate then
 set vPostAdjusted :=dAdjusted;
 set vPrevAdjusted:=0;
+set fAdjusted :=0;
 elseif  date_cur_str>bDate then
 set vPrevAdjusted :=dAdjusted;
 set vPostAdjusted:=0;
-else
 set fAdjusted :=0;
+else
+set fAdjusted :=dAdjusted;
 set vPrevAdjusted :=0;
 set vPostAdjusted:=0;
 end if;
@@ -153,9 +165,12 @@ end if;
 set i:=i+1;
 end while;
 set i:=0;
+if vHolidayFlag=1 then 
+insert into temp_forecast_analysis(parent_date,qty,del_count,remaining,adjusted,status,color,capacity,prev_adjusted,post_adjusted,return_code) values(date_cur_str,0,0,0,0,'holiday','orange',0,0,0,'Holiday');
+else
 
 select sum(trial_no) into vTrials from `tabTrial Dates` td,tabTrials t where t.name=td.parent and t.item_code=pitem_code and td.work_status='Open' and ( td.production_status is null or td.production_status<>'Close') and date_format(td.trial_date,'%Y-%m-%d')=date_cur_str;
-SELECT SUM(sii.qty) into vDeliveries from `tabSales Invoice Item` sii where   sii.delivery_date IS NOT NULL  and not exists(select true from `tabProduction Dashboard Details` pdd where sales_invoice_no=sii.parent and article_code=sii.item_code and pdd.process_status='Completed' )  and date_format(sii.delivery_date,'%Y-%m-%d')=date_cur_str;
+SELECT SUM(sii.tailoring_qty) into vDeliveries from `tabSales Invoice Items` sii where   sii.tailoring_delivery_date IS NOT NULL  and not exists(select true from `tabProduction Dashboard Details` pdd where sales_invoice_no=sii.parent and article_code=sii.tailoring_item_code and pdd.process_status='Completed' )  and date_format(sii.tailoring_delivery_date,'%Y-%m-%d')=date_cur_str;
 
 set vTrials :=coalesce(vTrials,0);
 set vDeliveries :=coalesce(vDeliveries,0);
@@ -165,18 +180,19 @@ set return_string :=concat('{Date:',date_cur_str,'Deliverable:') ;
 set date_cur:=DATE_ADD(date_cur, INTERVAL 1 DAY);
 set fAdjusted:=0;
 
-select sum(prev_adjusted),sum(post_adjusted),sum(remaining)  into  vPrevCount,vPostCount,vRemCount from temp_forecast_analysis where parent_date=date_cur_str;
-if vPostCount>0 then
+select sum(adjusted),sum(prev_adjusted),sum(post_adjusted),sum(remaining)  into  vAdjusted,vPrevCount,vPostCount,vRemCount from temp_forecast_analysis where parent_date=date_cur_str;
+if (vPrevCount+vPostCount+vAdjusted)<vCapacity then
         set vColorDesc:='green';
-elseif vPrevCount>=0 and vRemCount>0 then
-         set vColorDesc:='red';
+elseif (vPrevCount+vPostCount+vAdjusted)=vCapacity and vRemCount=0 then
+         set vColorDesc:='orange';
 else          
-        set vColorDesc:='orange';
+        set vColorDesc:='red';
 end if;
 
 
-update temp_forecast_analysis t set color=vColorDesc,return_code=concat('Deliverable:',t.deliveries,' \\n ','Trial Number:',t.trial_no,' \\n ','Capacity:',t.capacity,' \\n ','Adjusted:',vPostCount,' \\n ','Color:',t.color)  where  parent_date=date_cur_str;
+update temp_forecast_analysis t set color=vColorDesc,return_code=concat('Deliverable:',t.deliveries,' \n ','Trial Number:',t.trial_no,' \n ','Capacity:',t.capacity,' \n ','Current Processed:',adjusted,' \n','Previous adjustment:',vPrevCount,' \n','Next Adjustment:',vPostCount)  where  parent_date=date_cur_str;
 
+end if;
 end while;
 
  while v2Count<3 do             

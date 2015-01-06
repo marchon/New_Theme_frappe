@@ -14,7 +14,7 @@ frappe.pages['desktop'].refresh = function(wrapper) {
 };
 
 frappe.desktop.refresh = function() {
-	frappe.desktop.render();
+	// frappe.desktop.render();
 
 	$("#icon-grid").sortable({
 		update: function() {

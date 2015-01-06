@@ -1,7 +1,15 @@
 // Copyright (c) 2013, Web Notes Technologies Pvt. Ltd. and Contributors
 // MIT License. See license.txt
 
-
+frappe.ui.hide_navbar = function(){
+  $("header .navbar:first .nav:not(:first)").hide()
+  $(".page-sidebar-wrapper").hide()
+  $("#sidebar_items").hide()
+}
+frappe.ui.show_responsive_sidebar = function(){
+  $(".page-sidebar-wrapper").show();
+  $("#sidebar_items").slideDown( "slow" );
+}
 frappe.ui.toolbar.Toolbar = Class.extend({
     init: function() {
         this.make_admin_nav()
@@ -10,26 +18,35 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         this.make_file();
         this.make_logout()
         this.make_home_icon()
+        if(window.mobilecheck()){
+          this.make_responsive_toggler()
+          frappe.ui.show_responsive_toggler();
+          frappe.ui.hide_navbar()
+        }
+        //frappe.ui.show_responsive_toggler();
         //this.make_history();
         //this.make_bookmarks();
         
         //this.make_user_menu();
-        this.make_notification();
+        //this.make_notification();
         $('.dropdown-toggle').dropdown();
         //$(document).trigger('toolbar_setup');
         //$(document).on("page-change", function() {
         //    $("header .navbar .custom-menu").remove();
         //});
-        frappe.search.setup();
+        //frappe.search.setup();
     },
     make_admin_menu_items: function(){
       modules_list = keys(frappe.modules).sort();
       module_li = ""
-      $.each(modules_list.slice(0,5),function(i,module){
+      $.each(modules_list,function(i,module){
+         module_name = module
          module = frappe.get_module(module);
-         if(module){
+         custom_module_list = {'Admin Module':'admin-charts', 'Selling':'sales-dashboard', 'HR':'', 'Accounts':'account-dashboard', 'Manufacturing':'Form/Work Management', 'Stock':'Form/MR View'}
+         if(module && module_name in custom_module_list){
+          console.log(custom_module_list[module_name])
            $('<li class="dropdown dropdown-extended dropdown-inbox">\
-           <a href="#" data-name="'+module.name+'" data-role="top_menu_item" data-link="'+module.link+'" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">\
+           <a href="#" data-name="'+module.name+'" data-role="top_menu_item" data-link="'+module.link+'" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" href=#"'+custom_module_list[module_name]+'">\
              <i class="'+module.icon+'"></i>\
              <span class="title">'+module.label+'</span>\
           </a>\
@@ -48,18 +65,16 @@ frappe.ui.toolbar.Toolbar = Class.extend({
        </ul>\
        </li>').appendTo("#menu_bar_item")
 
-//code chnages by Balasaheb MUle
-
-       $('<form class="navbar-form navbar-left" role="search" onsubmit="return false;">\
-              <div class="form-group">\
-                <input id="navbar-search" type="text" class="form-control small"\
-        placeholder="' + __("Search or type a command") + '" \
-        style="padding: 2px 6px; height: 24px; margin-top: 5px; \
-         margin-left: 10px; background-color: #ddd; \
-         min-width: 220px; font-size: 85%;\
-         border-radius: 10px;">\
-              </div>\
-            </form>').appendTo("#menu_bar_item")
+      // $('<form class="navbar-form navbar-left" role="search" onsubmit="return false;">\
+      //        <div class="form-group">\
+      //          <input id="navbar-search" type="text" class="form-control small"\
+      //  placeholder="' + __("Search or type a command") + '" \
+      //  style="padding: 2px 6px; height: 24px; margin-top: 5px; \
+      //   margin-left: 10px; background-color: #ddd; \
+      //   min-width: 220px; font-size: 85%;\
+      //   border-radius: 10px;">\
+      //        </div>\
+      //      </form>').appendTo("#menu_bar_item")
 
       $.each(modules_list.slice(5,(modules_list.length-1)),function(i,module){
          module = frappe.get_module(module);
@@ -76,6 +91,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
       $("[data-role='top_menu_item']").on("click",function(){
         document.cookie = "module=" + $(this).attr("data-name");
         frappe.ui.make_sidebar($(this).attr("data-name"))
+        $("body").attr("refresh_navbar","false")
       })
     },
     make_admin_nav: function(){
@@ -105,7 +121,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
        placeholder="' + __("Search or type a command") + '" \
        style="padding: 2px 6px; height: 24px; margin-top: 5px; \
         margin-left: 10px; background-color: #ddd; \
-        min-width: 220px; font-size: 85%;\
+        min-width: 120px; font-size: 85%;\
         border-radius: 10px;">\
              </div>\
            </form>\
@@ -204,6 +220,16 @@ frappe.ui.toolbar.Toolbar = Class.extend({
           </a>\
         </li>')
 
+    },
+    make_responsive_toggler: function(){
+      $('header .navbar:first').prepend('<ul class="nav navbar-nav pull-right" id="navbar_toggle">\
+        <li class="dropdown dropdown-extended dropdown-inbox">\
+          <a href="#"  data-name="toggle-navbar" onclick="return(false);">\
+            <i class="fa fa-align-justify"></i>\
+            <span class="title"></span>\
+          </a>\
+        </li>\
+      </ul>')
     }
 });
 $.extend(frappe.ui.toolbar, {
@@ -331,25 +357,47 @@ frappe.ui.toolbar.show_banner = function(msg) {
   return $banner;
 }
 frappe.ui.set_container_width = function() {
-    if (($("header ul#sidebar_items").css("width") == "0px")||($("header ul#sidebar_items").css("width") == undefined)) {
+    if(window.mobilecheck()){
+      frappe.ui.make_toggler_responsive()
+    }else{
+      if (($("header ul#sidebar_items").css("width") == "0px")||($("header ul#sidebar_items").css("width") == undefined)) {
         $(".page-container").css("margin-left", "10px")
         $(".page-container").css("width", "103%")
         //$(".page-container:last .container").css("margin-left", "10px")
         $(".page-container:visible .container:first").css("max-width", "90%")
         $(".page-container:visible .container:first").css("width", "92%")
-    } else if($("header ul#sidebar_items").hasClass("page-sidebar-menu-closed")){
-        $(".page-container").css("margin-left", "10px")
-        $(".page-container").css("width", "103%")
-        //$(".page-container:last .container").css("margin-left", "10px")
-        $(".page-container:visible .container:first").css("max-width", "90%")
-        $(".page-container:visible .container:first").css("width", "92%")
-    }else {
-        $(".page-container").css("margin-left", "148px")
-        $(".page-container").css("width", "90%")
-        //$(".page-container:last .container").css("margin-left", "118px")
-        $(".page-container:visible .container:first").css("max-width", "90%")
-        $(".page-container:visible .container:first").css("width", "92%")
+      } else if($("header ul#sidebar_items").hasClass("page-sidebar-menu-closed")){
+          $(".page-container").css("margin-left", "10px")
+          $(".page-container").css("width", "103%")
+          //$(".page-container:last .container").css("margin-left", "10px")
+          $(".page-container:visible .container:first").css("max-width", "90%")
+          $(".page-container:visible .container:first").css("width", "92%")
+      }else {
+          $(".page-container").css("margin-left", "148px")
+          $(".page-container").css("width", "90%")
+          //$(".page-container:last .container").css("margin-left", "118px")
+          $(".page-container:visible .container:first").css("max-width", "90%")
+          $(".page-container:visible .container:first").css("width", "92%")
+      }
     }
+}
+
+frappe.ui.make_toggler_responsive = function() {
+  $("header .navbar:first").removeClass("navbar-fixed-top")
+  $(".page-sidebar-wrapper").addClass("navbar")
+  $(".page-sidebar-wrapper").addClass("navbar-inverse")
+  $(".page-sidebar").removeClass("collapse")
+  $("#sidebar_items").css('position','').css("top","").css("bottom","").css("z-index","").css("height","").css("width","").css("display","none");
+  $(".page-sidebar-wrapper").css('width',"").css("display","none");
+  $("header").css("background-color","#444")
+  $(".page-sidebar").css("width","100%")
+  $(".navbar ul").removeClass("pull-left")
+  $(".navbar ul").removeClass("pull-right")
+}
+frappe.ui.show_responsive_toggler = function(){
+  $("header .navbar:first .nav:not(:first)").hide()
+  $("#sidebar_items").hide()
+  $(".page-sidebar-wrapper").hide()
 }
 frappe.ui.make_sidebar = function(module) {
     module = (frappe.get_cookie("module"));
@@ -416,7 +464,15 @@ frappe.ui.make_sidebar = function(module) {
         Layout.init();
         QuickSidebar.init();
         frappe.ui.set_container_width();
-        $('ul#sidebar_items').show()
+        if($("body").attr("refresh_navbar")=="false"){
+          frappe.ui.show_responsive_sidebar();
+        }
+        if(window.mobilecheck()){
+          //frappe.ui.make_toggler_responsive()
+          //frappe.ui.show_responsive_toggler()
+        }else{
+          $('ul#sidebar_items').show()
+        }
     }, 1000);
 }
 frappe.item_route = function(item){
@@ -462,21 +518,53 @@ $(document).on("click","#home_link",function(){
 
 
 $(document).on("click","#sidebar_items li",function(){
-  frappe.ui.set_container_width();
-  setTimeout(function() {
-    $("#sidebar_items").css("height",$(document).height()+"px")
+  if(!window.mobilecheck()){
+    frappe.ui.set_container_width();
+    setTimeout(function() {
+      $("#sidebar_items").css("height",$(document).height()+"px")
+      frappe.ui.set_container_width()
     }, 1000)
-
+  }else{
+    frappe.ui.show_responsive_sidebar();
+  }
   document.cookie = 'module="Admin Module"';
   return(0);
 })
 $(document).ready(function(){
   frappe.ui.set_container_width();
+  $("header .navbar:first .nav:not(:first)").hide()
+  $("#sidebar_items").hide()
+  $(".page-sidebar-wrapper").hide()
 })
 
 $(document).on("click","button",function(){
   setTimeout(function(){
      frappe.ui.set_container_width();
   },500) // wait for page load
-  $('ul#sidebar_items').height($(document).height());
+  if(!frappe.ui.mobilecheck()){
+    $('ul#sidebar_items').height($(document).height());
+  }
 })
+
+$(document).on("click","#navbar_toggle",function(){
+  if($("#menu_bar_item").is(":visible")){
+    $("header .navbar:first .nav:not(:first)").slideUp("slow")
+    $("#sidebar_items").slideUp("slow")
+    $(".page-sidebar-wrapper").slideUp("slow")
+  }else{
+    $("header .navbar:first .nav:not(:first)").slideDown("slow")
+    $(".page-sidebar-wrapper").show();
+    $("#sidebar_items").slideDown( "slow" );
+  }
+})
+
+$(document).on("click","#menu_bar_item li",function(){
+  frappe.ui.show_responsive_sidebar()
+})
+
+$(window).on('hashchange', function() {
+  frappe.ui.set_container_width(); // for immediate widnow resize
+  setTimeout(function(){
+     frappe.ui.set_container_width();
+  },500) //if page takes time to load then this code ensures its resizing
+});
