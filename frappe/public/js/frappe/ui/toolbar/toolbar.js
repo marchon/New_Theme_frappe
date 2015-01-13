@@ -403,6 +403,18 @@ frappe.ui.show_responsive_toggler = function(){
   $("#sidebar_items").hide()
   $(".page-sidebar-wrapper").hide()
 }
+frappe.ui.web_toggler = function(){
+  $("header .navbar:first").addClass("navbar-fixed-top")
+  $(".page-sidebar-wrapper").removeClass("navbar") 
+  $(".page-sidebar-wrapper").removeClass("navbar-inverse")
+  $(".page-sidebar").addClass("collapse")
+  $("#sidebar_items").css('position', 'absolute').css("top", "0px").css("bottom", "0px").css("z-index", "9999").css("height", $(document).height()+"px").css("width", "193px").css("display", "block");
+  $(".page-sidebar-wrapper").css('width', "8%").css("display", "block");
+  $("header").css("background-color", "#444")
+  $(".page-sidebar").css("width", "100%")
+  $(".navbar ul").addClass("pull-left")
+  $(".navbar ul").addClass("pull-right")
+}
 frappe.ui.make_sidebar = function(module) {
     module = (frappe.get_cookie("module"));
     $(".page-sidebar-wrapper").remove()
