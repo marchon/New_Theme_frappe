@@ -28,7 +28,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         //this.make_bookmarks();
         
         //this.make_user_menu();
-        //this.make_notification();
+        this.make_notification();
         $('.dropdown-toggle').dropdown();
         //$(document).trigger('toolbar_setup');
         //$(document).on("page-change", function() {
