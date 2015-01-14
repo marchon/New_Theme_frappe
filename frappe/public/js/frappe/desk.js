@@ -1,6 +1,7 @@
 // Copyright (c) 2013, Web Notes Technologies Pvt. Ltd. and Contributors
 // MIT License. See license.txt
 
+// new 
 $(document).ready(function() {
 	frappe.assets.check();
 	frappe.provide('frappe.app');
