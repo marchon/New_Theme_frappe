@@ -17,6 +17,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         this.make_help();
         this.make_file();
         this.make_logout()
+        this.make_notification();
         this.make_home_icon()
         if(window.mobilecheck()){
           this.make_responsive_toggler()
@@ -28,7 +29,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         //this.make_bookmarks();
         
         //this.make_user_menu();
-        this.make_notification();
+        
         $('.dropdown-toggle').dropdown();
         //$(document).trigger('toolbar_setup');
         //$(document).on("page-change", function() {
@@ -64,16 +65,16 @@ frappe.ui.toolbar.Toolbar = Class.extend({
        </ul>\
        </li>').appendTo("#menu_bar_item")
 
-      $('<form class="navbar-form navbar-left" role="search" onsubmit="return false;">\
+      $('<li class="dropdown"><form class="navbar-form navbar-left" role="search" onsubmit="return false;">\
              <div class="form-group">\
                <input id="navbar-search" type="text" class="form-control small"\
-       placeholder="' + __("Search or type a command") + '" \
+       placeholder="' + __("Search or command") + '" \
        style="padding: 2px 6px; height: 24px; margin-top: 5px; \
-        margin-left: 10px; background-color: #ddd; \
+        margin-left: -9px; background-color: #ddd; \
         min-width: 120px; font-size: 85%;\
-        border-radius: 10px;">\
+        border-radius: 10px !important;width: 131px;">\
              </div>\
-           </form>').appendTo("#menu_bar_item")
+           </form></li>').appendTo("#menu_bar_item")
 
       $.each(modules_list.slice(5,(modules_list.length-1)),function(i,module){
          module_name = module
@@ -100,7 +101,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
     },
     make_admin_nav: function(){
         $('#before_header').after('<div class="navbar navbar-inverse navbar-fixed-top" style="z-index: 99999;">\
-            <ul class="nav navbar-nav pull-left" id="menu_bar_item">\
+            <ul class="nav navbar-nav" id="menu_bar_item">\
         </div>');
         this.make_admin_menu_items()
     },
@@ -147,8 +148,8 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         $('.navbar-brand').attr('href', "#");
     },
     make_notification: function() {
-        $('.navbar .navbar-right').append('<li class="dropdown">\
-   <a class="dropdown-toggl" href="#"  data-toggle="dropdown"\
+        $('.navbar .nav:first').prepend('<li class="dropdown">\
+   <a class="dropdown-toggle" href="#"  data-toggle="dropdown"\
     title="' + __("Unread Messages") + '"\
     onclick="return false;"><span class="navbar-new-comments">0</span></a>\
    <ul class="dropdown-menu" id="navbar-notification">\
@@ -181,7 +182,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         frappe.ui.toolbar.bookmarks = new frappe.ui.toolbar.Bookmarks();
     },
     make_help: function() {
-        $('.navbar').append('<ul class="nav navbar-nav pull-right"><li class="dropdown">\
+        $('.navbar').append('<ul class="nav navbar-nav"><li class="dropdown">\
    <a class="dropdown-toggle" data-toggle="dropdown" href="#" \
     title="' + __("Help") + '"\
     onclick="return false;">' + __("Help") + '</a>\
@@ -383,6 +384,7 @@ frappe.ui.set_container_width = function() {
           $(".page-container:visible .container:first").css("max-width", "90%")
           $(".page-container:visible .container:first").css("width", "92%")
       }
+      $("#navbar-search").css("margin-left","-8px")
     }
 }
 
@@ -397,6 +399,7 @@ frappe.ui.make_toggler_responsive = function() {
   $(".page-sidebar").css("width","100%")
   $(".navbar ul").removeClass("pull-left")
   $(".navbar ul").removeClass("pull-right")
+  $("#navbar-search").css("margin-left","20px")
 }
 frappe.ui.show_responsive_toggler = function(){
   $("header .navbar:first .nav:not(:first)").hide()
@@ -412,8 +415,9 @@ frappe.ui.web_toggler = function(){
   $(".page-sidebar-wrapper").css('width', "8%").css("display", "block");
   $("header").css("background-color", "#444")
   $(".page-sidebar").css("width", "100%")
-  $(".navbar ul").addClass("pull-left")
-  $(".navbar ul").addClass("pull-right")
+  //$(".navbar ul").addClass("pull-left")
+  //$(".navbar ul").addClass("pull-right")
+  $("#navbar-search").css("margin-left","20px")
 }
 frappe.ui.make_sidebar = function(module) {
     module = (frappe.get_cookie("module"));
