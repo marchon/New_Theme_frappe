@@ -13,7 +13,6 @@ frappe.ui.show_responsive_sidebar = function(){
 frappe.ui.toolbar.Toolbar = Class.extend({
     init: function() {
         this.make_admin_nav()
-        //this.make();
         this.make_help();
         this.make_file();
         this.make_logout()
