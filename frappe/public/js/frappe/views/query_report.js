@@ -69,7 +69,10 @@ frappe.views.QueryReport = Class.extend({
 			frappe.set_route("Form", "Report", me.report_name);
 		}, "icon-edit");
 
-		this.appframe.add_button(__('Export'), function() { me.export_report(); },
+		this.appframe.add_button(__('Export To CSV'), function() { me.export_report(); },
+			"icon-download");
+
+		this.appframe.add_button(__('Export To PDF'), function() { me.export_report_pdf(); },
 			"icon-download");
 
 		if(frappe.model.can_set_user_permissions("Report")) {
@@ -652,5 +655,61 @@ frappe.views.QueryReport = Class.extend({
 		this.title = this.report_name;
 		frappe.tools.downloadify(result, null, this);
 		return false;
+	},
+
+	export_report_pdf: function() {
+		console.log("In report pdf")
+		if(!frappe.model.can_export(this.report_doc.ref_doctype)) {
+			msgprint(__("You are not allowed to export this report"));
+			return false;
+		}
+
+		var result = $.map(frappe.slickgrid_tools.get_view_data(this.columns, this.dataView),
+		 	function(row) {
+				return [row.splice(1)];
+		});
+		this.title = this.report_name;
+
+		var content=result;
+
+    	var tbody = '<html><head></head><body><div><table style="border-collapse: collapse; border: 1px solid black;width:100%;">';
+    	for (i=0;i<content.length;i++){
+    		tbody+='<tr style="height:50px">';
+    		for(j=0;j<content[i].length;j++){
+    			if(i==0){
+    				tbody +='<th style="border: 1px solid rgb(60, 58, 58);background-color:lightgray;text-align:center">'
+    			tbody+=content[i][j]
+    			tbody+='</th>'
+
+    			}
+    			else{
+    			tbody +='<td style="border: 1px solid rgb(60, 58, 58);text-align:center">'
+    			tbody+=content[i][j]
+    			tbody+='</td>'
+
+    			}
+    			
+    		}
+    		 tbody+='</tr>'
+
+    	}
+    	tbody +='</table></div></body></html>'
+
+
+	frappe.call({
+		method:"erpnext.templates.pages.report_pdf.download_report_pdf",
+		args:{"html":tbody},
+		callback:function(r){
+			console.log(r.message)
+			path=r.message
+			index=path.search('/files')
+			pdf_path=path.slice(index)
+			window.open(pdf_path)
+		}
+
+	});
+
+		return false;
 	}
 })
+
