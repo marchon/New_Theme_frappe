@@ -4,7 +4,7 @@ frappe.pages['imgcanvas'].onload = function(wrapper) {
     title: 'Image Canvas',
     single_column: false
   });
-$('<div id="main-body"><div id="wPaint" align="center" style="position:relative; width:600px; height:300px; background-color:#99CCFF; margin:50px;">\
+$('<div id="main-body"><div id="wPaint" align="center" style="position:relative; width:500px; height:500px; background-color:#99CCFF; margin:50px;">\
   </div></div>\
       <center id="wPaint-img"></center>').appendTo($(wrapper).find('.layout-main-section'));
 work_order = frappe.route_options.work_order
@@ -59,6 +59,7 @@ frappe.Canvas = Class.extend({
                   width:579,
                   saveImg: saveImg,
                   loadImgBg: loadImgBg,
+                  imageStretch: true,
                   loadImgFg: loadImgFg
               });
               $('.wPaint-menu').css('width','579px')
