@@ -91,7 +91,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
       })
 
       $("[data-role='top_menu_item']").on("click",function(){
-        custom_module_list = {'Admin Module':'#admin-charts', 'Selling':'#sales-dashboard', 'HR':'#', 'Accounts':'#account-dashboard', 'Manufacturing':'#Form/Work Management', 'Stock':'#Form/MR View'}  
+        custom_module_list = {'Admin Module':'#admin-charts', 'Selling':'#sales-dashboard', 'HR':'#', 'Accounts':'#account-dashboard', 'Manufacturing':'#Form/Work Management', 'Stock':'#Form/MR View', 'Cashier Or Reception Module': '#Form/Cashier Dashboard'}  
         document.cookie = "module=" + $(this).attr("data-name");
         frappe.ui.make_sidebar($(this).attr("data-name"))
         $("body").attr("refresh_navbar","false")

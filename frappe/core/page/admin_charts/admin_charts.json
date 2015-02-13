@@ -4,13 +4,17 @@
  "docstatus": 0, 
  "doctype": "Page", 
  "icon": "icon-magic", 
- "modified": "2014-09-17 20:13:04.900681", 
+ "modified": "2015-02-12 12:41:40.544728", 
  "modified_by": "Administrator", 
  "module": "Core", 
  "name": "admin-charts", 
  "owner": "Administrator", 
  "page_name": "Admin Charts", 
- "roles": [], 
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ], 
  "script": null, 
  "standard": "Yes", 
  "style": null, 

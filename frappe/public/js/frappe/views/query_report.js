@@ -671,6 +671,7 @@ frappe.views.QueryReport = Class.extend({
 		this.title = this.report_name;
 
 		var content=result;
+		console.log(content)
 
     	var tbody = '<html><head></head><body><div><table style="border-collapse: collapse; border: 1px solid black;width:100%;">';
     	for (i=0;i<content.length;i++){
@@ -694,6 +695,7 @@ frappe.views.QueryReport = Class.extend({
 
     	}
     	tbody +='</table></div></body></html>'
+    	console.log(tbody)
 
 
 	frappe.call({
