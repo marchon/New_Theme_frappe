@@ -123,6 +123,7 @@ h2.titlebar-left-item {
 
 .appframe-form {
 	padding: 2px 0px 5px 0px;
+	color: #FFF;
 }
 
 .appframe-form input, .appframe-form select, .appframe-form label {

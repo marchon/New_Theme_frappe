@@ -64,7 +64,8 @@ frappe.Canvas = Class.extend({
               });
               $('.wPaint-menu').css('width','579px')
               $('.wPaint-menu-holder').css('background-color','rgb(229, 247, 246)')
-            }  
+            }
+          
           }
         });
   }
@@ -79,6 +80,8 @@ frappe.Canvas = Class.extend({
                   },
                   callback: function(r) {
                     msgprint(__("File Saved."))
+                    frappe.route_options = { number:1}
+                    window.history.back();
                   }
                 });
      

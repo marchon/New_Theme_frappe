@@ -13,6 +13,7 @@ import string
 def save_img(content, work_order):
 	content = get_uploadedImage_content(content, work_order)
 	fname = get_RandomString()
+	fname = fname+'.jpg' 
 	if content:
 		image = save_file(fname, content, 'Work Order', work_order)
 	return "Done"

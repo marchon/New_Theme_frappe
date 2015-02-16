@@ -168,9 +168,9 @@ frappe.ui.toolbar.Toolbar = Class.extend({
     onclick="return false;">' + __("File") + '</a>\
    <ul class="dropdown-menu" id="navbar-file">\
     <li><a href="#" onclick="return frappe.ui.toolbar.new_dialog.show();">\
-     <i class="icon-fixed-width icon-plus"></i> ' + __('New') + '...</a></li>\
+     <i class="icon-fixed-width icon-plus" style="color:rgb(23, 13, 13) !important"></i> ' + __('New') + '...</a></li>\
     <li><a href="#" onclick="return frappe.ui.toolbar.report.show();">\
-     <i class="icon-fixed-width icon-list"></i> ' + __('Report') + '...</a></li>\
+     <i class="icon-fixed-width icon-list" style="color:rgb(23, 13, 13) !important"></i> ' + __('Report') + '...</a></li>\
    </ul>\
   </li>');
     },
@@ -182,14 +182,8 @@ frappe.ui.toolbar.Toolbar = Class.extend({
     },
     make_help: function() {
         $('.navbar').append('<ul class="nav navbar-nav"><li class="dropdown">\
-   <a class="dropdown-toggle" data-toggle="dropdown" href="#" \
-    title="' + __("Help") + '"\
-    onclick="return false;">' + __("Help") + '</a>\
-   <ul class="dropdown-menu" id="toolbar-help"> \
-    <li><a href="#" onclick="return frappe.ui.toolbar.clear_cache();">\
-     <i class="icon-fixed-width icon-refresh"></i> ' + __('Clear Cache') + '</a></li>\
-   </ul>\
-  </li></ul>');
+          <li class="dropdown dropdown-quick-sidebar-toggler"><a href="#" class="dropdown-toggle" onclick="return frappe.ui.toolbar.clear_cache();">\
+            <i class="icon-fixed-width icon-refresh"></i></a></li>');
     },
     set_user_name: function() {
         $('#toolbar-user-name').html('<img src="' + frappe.user_info().image + '" style="max-width: 24px; max-height: 24px; margin: -2px 0px;">');
@@ -242,8 +236,8 @@ $.extend(frappe.ui.toolbar, {
     if(menu.find("li:not(.custom-menu)").length && !menu.find(".divider").length) {
       frappe.ui.toolbar.add_menu_divider(menu);
     }
-
-    return $('<li class="custom-menu"><a><i class="icon-fixed-width '
+    //Rohit
+    return $('<li class="custom-menu" style="display:none"><a><i class="icon-fixed-width '
       +icon+'"></i> '+label+'</a></li>')
       .insertBefore(menu.find(".divider"))
       .find("a")

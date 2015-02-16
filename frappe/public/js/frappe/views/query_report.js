@@ -671,8 +671,16 @@ frappe.views.QueryReport = Class.extend({
 		this.title = this.report_name;
 
 		var content=result;
-		console.log(content)
+		//console.log(content)
+		// var header
+		// console.log($(document).find('.ui-state-default slick-header-column'))
+		// $('.ui-state-default slick-header-column').each(function(r){
+		// 	console.log($(this).val())
+		// 	header=$(this).val()+','
+		// })
 
+		// console.log(header)
+		// csa
     	var tbody = '<html><head></head><body><div><table style="border-collapse: collapse; border: 1px solid black;width:100%;">';
     	for (i=0;i<content.length;i++){
     		tbody+='<tr style="height:50px">';
