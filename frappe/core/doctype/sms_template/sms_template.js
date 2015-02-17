@@ -9,7 +9,6 @@ cur_frm.cscript.subject = function(doc, dt, dn){
 			'Appointment reminder': '(customer), (apoointment_time)',
 			'Thank you SMS': '(customer)'
 		}
-	console.log(dic[doc.subject])
 	cur_frm.set_value('keys', dic[doc.subject])
 	refresh_field('keys')
 }

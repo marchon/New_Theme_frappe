@@ -102,7 +102,6 @@ login.login_handlers = (function() {
 			if (data.ip_resp=='ip_not_found'){
 				    var r = confirm("Not allowed from this IP. Do you want to send request to admin");
 					if (r == true){
-					 	console.log(r)
 					find_ip()
 					 }
 			}
@@ -141,7 +140,6 @@ frappe.ready(function() {
 
 
 function find_ip() {
-	//console.log("hiii")
 	var args = {};
 	args.cmd = "frappe.core.doctype.user.user.find_ownIP";
 	$.ajax({

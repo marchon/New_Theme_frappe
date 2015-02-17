@@ -8,7 +8,6 @@ $('<div id="main-body"><div id="wPaint" align="center" style="position:relative;
   </div></div>\
       <center id="wPaint-img"></center>').appendTo($(wrapper).find('.layout-main-section'));
 work_order = frappe.route_options.work_order
-console.log(work_order)
 WorkOrderCanvas = new frappe.Canvas(wrapper, work_order); 
 };
 
@@ -88,7 +87,6 @@ frappe.Canvas = Class.extend({
             }
 
               function loadImgBg () {
-                console.log(images)
                 this._showFileModal('bg', images);
               }
 

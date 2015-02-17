@@ -78,7 +78,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
       $.each(modules_list.slice(5,(modules_list.length-1)),function(i,module){
          module_name = module
          module = frappe.get_module(module);
-         custom_module_list = {'Cashier Or Reception Module':'1', 'Messages':'2', 'Mreq':'3', 'Notes':'4', 'Projects':'5', 'Support':'6', 'To Do':'7', 'Tools Management':'8'}
+         custom_module_list = {'Cashier Or Reception Module':'1', 'Messages':'2', 'Mreq':'3', 'Notes':'4', 'Projects':'5', 'Support':'6', 'To Do':'7', 'Tools Management':'8', 'Loyalty Point Engine':'9'}
          
          if(module && module_name in custom_module_list){
            $('<li>\
@@ -237,13 +237,15 @@ $.extend(frappe.ui.toolbar, {
       frappe.ui.toolbar.add_menu_divider(menu);
     }
     //Rohit
-    return $('<li class="custom-menu" style="display:none"><a><i class="icon-fixed-width '
-      +icon+'"></i> '+label+'</a></li>')
-      .insertBefore(menu.find(".divider"))
-      .find("a")
-      .click(function() {
-        click.apply(this);
-      });
+    if (label != 'All Applications'){
+      return $('<li class="custom-menu" ><a><i class="icon-fixed-width '
+        +icon+'"></i> '+label+'</a></li>')
+        .insertBefore(menu.find(".divider"))
+        .find("a")
+        .click(function() {
+          click.apply(this);
+        });
+    }
   },
   get_menu: function(label) {
     return $("#navbar-" + label.toLowerCase());

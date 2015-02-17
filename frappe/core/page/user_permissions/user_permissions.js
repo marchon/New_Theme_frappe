@@ -53,7 +53,6 @@ frappe.UserPermissions = Class.extend({
 		var me = this;
 
 		$(this.wrapper).find(".view-role-permissions").on("click", function() {
-				console.log(me.get_doctype())
 				frappe.route_options = { doctype: me.get_doctype() || "" };
 				frappe.set_route("permission-manager");
 			})
