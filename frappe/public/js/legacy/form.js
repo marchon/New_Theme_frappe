@@ -19,7 +19,6 @@ frappe.provide('frappe.ui.form');
 
 frappe.ui.form.Controller = Class.extend({
 	init: function(opts) {
-		console.log(opts)
 		$.extend(this, opts);
 		this.setup && this.setup();
 	}

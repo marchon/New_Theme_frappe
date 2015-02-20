@@ -658,11 +658,12 @@ frappe.views.QueryReport = Class.extend({
 	},
 
 	export_report_pdf: function() {
-		console.log("In report pdf")
 		if(!frappe.model.can_export(this.report_doc.ref_doctype)) {
 			msgprint(__("You are not allowed to export this report"));
 			return false;
 		}
+
+		currency_list=['₹','$','£','¥','€','د.إ']
 
 		var result = $.map(frappe.slickgrid_tools.get_view_data(this.columns, this.dataView),
 		 	function(row) {
@@ -671,29 +672,36 @@ frappe.views.QueryReport = Class.extend({
 		this.title = this.report_name;
 
 		var content=result;
-		//console.log(content)
-		// var header
-		// console.log($(document).find('.ui-state-default slick-header-column'))
-		// $('.ui-state-default slick-header-column').each(function(r){
-		// 	console.log($(this).val())
-		// 	header=$(this).val()+','
-		// })
+		var table_data=[]
+		$('.ui-widget-content.slick-row').each(function(r){
+				row=[]
+				$(this).find('.slick-cell').each(function(r){
+		         	row.push($(this).text())
+		     })
+			table_data.push(row)	
+		})
 
-		// console.log(header)
-		// csa
-    	var tbody = '<html><head></head><body><div><table style="border-collapse: collapse; border: 1px solid black;width:100%;">';
-    	for (i=0;i<content.length;i++){
-    		tbody+='<tr style="height:50px">';
-    		for(j=0;j<content[i].length;j++){
+		table_header=[]
+		$('.ui-state-default.slick-header-column').each(function(r){
+			table_header.push($(this).text())
+		})
+		table_data.unshift(table_header)
+		console.log(table_data)
+
+
+    	var tbody = '<html><head></head><body><div><table style="table-layout:fixed;border:1px solid #A09F9F;border-collapse: collapse">';
+    	for (i=0;i<table_data.length;i++){
+    		tbody+='<tr style="width:100%">';
+    		for(j=0;j<table_data[i].length;j++){
     			if(i==0){
-    				tbody +='<th style="border: 1px solid rgb(60, 58, 58);background-color:lightgray;text-align:center">'
-    			tbody+=content[i][j]
+    				tbody +='<th style="background-color:#ECE9E9;word-wrap:break-word;border:1px solid #A09F9F">'
+    			tbody+=table_data[i][j]
     			tbody+='</th>'
 
     			}
     			else{
-    			tbody +='<td style="border: 1px solid rgb(60, 58, 58);text-align:center">'
-    			tbody+=content[i][j]
+    			tbody +='<td style="word-wrap:break-word;border:1px solid #A09F9F">'
+    			tbody+=table_data[i][j]
     			tbody+='</td>'
 
     			}
@@ -703,14 +711,20 @@ frappe.views.QueryReport = Class.extend({
 
     	}
     	tbody +='</table></div></body></html>'
-    	console.log(tbody)
 
+    	$.each(currency_list,function(logo){
+
+          var reg = new RegExp(currency_list[logo], "igm");
+            tbody = tbody.replace(reg,'');
+
+          })
+
+    	console.log(tbody)
 
 	frappe.call({
 		method:"erpnext.templates.pages.report_pdf.download_report_pdf",
 		args:{"html":tbody},
 		callback:function(r){
-			console.log(r.message)
 			path=r.message
 			index=path.search('/files')
 			pdf_path=path.slice(index)

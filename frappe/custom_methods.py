@@ -22,7 +22,6 @@ def appintment_notification(doc, method):
 	'''
 	if login and password and doc.get('appointment_list'):
 		dtstamp = datetime.datetime.now()
-		frappe.errprint(doc.starts_on)
 		dtstart = datetime.datetime.strptime(doc.starts_on,'%Y-%m-%d %H:%M:%S').strftime("%Y%m%dT%H%M%S")
 		dtend = datetime.datetime.strptime(doc.ends_on,'%Y-%m-%d %H:%M:%S').strftime("%Y%m%dT%H%M%S")
 

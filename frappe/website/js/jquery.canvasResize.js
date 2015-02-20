@@ -52,12 +52,10 @@
             }
             var bb = (window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder);
             if (bb) {
-                //    console.log('BlobBuilder');        
                 bb = new (window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder)();
                 bb.append(ab);
                 return bb.getBlob(mimeString);
             } else {
-                //    console.log('Blob');  
                 bb = new Blob([ab], {
                     'type': (mimeString)
                 });
@@ -112,7 +110,6 @@
          * Orientation value is from EXIF tag
          */
         transformCoordinate: function(canvas, width, height, orientation) {
-            //console.log(width, height);
             switch (orientation) {
                 case 5:
                 case 6:
@@ -239,7 +236,6 @@
                         var iw = img.width, ih = img.height;
                         var width = size.width, height = size.height;
 
-                        //console.log(iw, ih, size.width, size.height, orientation);
 
                         var canvas = document.createElement("canvas");
                         var ctx = canvas.getContext("2d");

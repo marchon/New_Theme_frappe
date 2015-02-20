@@ -113,7 +113,6 @@ frappe.AdminChart = Class.extend({
 					'obj':me.args
 				},
 				callback: function(r) {
-					console.log(["sdf",r.message])
 					var options = {packages: ['corechart'], callback : drawChart};
 				    google.load('visualization', '1', options);
 				    function drawChart()

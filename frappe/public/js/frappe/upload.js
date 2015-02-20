@@ -76,7 +76,6 @@ frappe.upload = {
       var me=this;
       $upload.find(".btn-upload").hide();
       // frappe.upload.button_upload(me,opts);
-      console.log("on the test")
             for(key in opts.args) {
             if(typeof val==="function")
               opt.args[key] = opts.args[key]();
@@ -97,7 +96,6 @@ frappe.upload = {
           })
 
           opts.args.file_url = $upload.find('[name="file_url"]').val();
-          console.log(opts.args.params[key]);
           var fileobj = $upload.find(":file").get(0).files[0];
           frappe.upload.upload_file(fileobj, opts.args, opts,true);
       })	
@@ -110,7 +108,6 @@ frappe.upload = {
 			msgprint(__("Please attach a file or set a URL"));
 			return;
 		}
-		console.log([fileobj, args, opts])
 		var dataurl = null;
 		var _upload_file = function() {
 			if(opts.on_attach) {
@@ -160,7 +157,6 @@ frappe.upload = {
 				// 	frappe.utils.resize_image(freader, function(_dataurl) {
 				// 		dataurl = _dataurl;
 				// 		args.filedata = _dataurl.split(",")[1];
-				// 		console.log("resized!")
 				// 		_upload_file();
 				// 	})
 				// } else {
@@ -179,7 +175,6 @@ frappe.upload = {
 
 frappe.Cropper = Class.extend({
   init: function(wrapper,imgdata,args,opts) {
-    console.log("hello in cropper");
     this.show_menus(wrapper,imgdata);
     this.show_functions(args,opts,imgdata);
     },
@@ -326,14 +321,11 @@ frappe.Cropper = Class.extend({
 
       $("#getData").click(function() {
         var url=$image.cropper("getData")
-        console.log("URi")
-        console.log(url)
         $("#showData").val(JSON.stringify($image.cropper("getData")));
       });
 
       $("#getDataURL").click(function() {
         var dataURL = $image.cropper("getDataURL");
-        console.log($("#dataURL"));
         //window.open(dataURL);
         $("#dataURL").text(dataURL);
         $("#showDataURL").html('<img src="' + dataURL + '" height="180%" width="180%">');
@@ -359,21 +351,14 @@ frappe.Cropper = Class.extend({
    }, 
 
    upload_img:function(args,dataurl,opts,imgdata){
-    // console.log("in the upload_img")
         // var _upload_file = function() {
           // var opts=opts
-          console.log("on the upload2")
-          console.log(opts)
-          console.log(args)
-          console.log(dataurl)
           if (!dataurl){
             dataurl=imgdata
           }
-          console.log(dataurl)
           args.filedata = dataurl.split(",")[1];
           if(opts.on_attach) {
             opts.on_attach(args, dataurl)
-            console.log(args)
           } else {
             var msgbox = msgprint(__("Uploading..."));
             return frappe.call({
@@ -390,7 +375,6 @@ frappe.Cropper = Class.extend({
                 var attachment = r.message;
                 opts.callback(attachment, r);
                 $(document).trigger("upload_complete", attachment);
-                console.log("done")
               }
             });
           }

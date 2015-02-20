@@ -127,7 +127,6 @@ frappe.ui.AppFrame = Class.extend({
 			type: "form",
 			label: __("Form"),
 			set_route: function() {
-				console.log(me.doctype);
 				if(frappe.views.formview[me.doctype]) {
 					frappe.set_route("Form", me.doctype, frappe.views.formview[me.doctype].frm.docname);
 				} else {

@@ -162,7 +162,6 @@ frappe.request.prepare = function(opts) {
 
 	// no cmd?
 	if(!opts.args.cmd && !opts.url) {
-		console.log(opts)
 		throw "Incomplete Request";
 	}
 

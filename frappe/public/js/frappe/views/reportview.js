@@ -660,7 +660,6 @@ frappe.ui.ColumnPicker = Class.extend({
 		w.data("fieldselect", fieldselect);
 
 		w.find('.close').data("fieldselect", fieldselect).click(function() {
-			console.log(me.columns.indexOf($(this).data('fieldselect')));
 			delete me.columns[me.columns.indexOf($(this).data('fieldselect'))];
 			$(this).parent().remove();
 		});
