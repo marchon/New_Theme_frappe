@@ -16,6 +16,8 @@ def save_img(content, work_order):
 	fname = fname+'.jpg' 
 	if content:
 		image = save_file(fname, content, 'Work Order', work_order)
+		if image:
+			frappe.db.sql(""" update `tabFile Data` set type_of_file = 'Yes' where name = '%s'"""%(image.name), debug=1)
 	return "Done"
 
 def get_RandomString():
