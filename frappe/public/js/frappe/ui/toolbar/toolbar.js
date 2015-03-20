@@ -37,7 +37,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         frappe.search.setup();
     },
     make_admin_menu_items: function(){
-      modules_list = keys(frappe.modules).sort();
+      modules_list = frappe.user.get_desktop_items();
       module_li = ""
       $.each(modules_list,function(i,module){
          module_name = module
