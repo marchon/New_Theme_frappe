@@ -39,7 +39,6 @@ frappe.ui.toolbar.Toolbar = Class.extend({
     make_admin_menu_items: function(){
       modules_list = frappe.user.get_desktop_items();
       module_li = ""
-      console.log(modules_list)
       $.each(modules_list,function(i,module){
          module_name = module
          module = frappe.get_module(module);
