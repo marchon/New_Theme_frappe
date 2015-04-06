@@ -34,7 +34,7 @@ def get_uploadedImage_content(filedata, filename):
 def get_img(work_order):
 	if work_order:
 		item = frappe.db.get_value('Work Order', work_order, 'item_code')
-		img_list=frappe.db.sql("select file_url from `tabFile Data` where attached_to_doctype='Item' and attached_to_name='%s' and file_url not in(select add_image from `tabStyle Item` where parent='%s')"%(item, item),as_list=1)
+		img_list=frappe.db.sql("select file_url from `tabFile Data` where attached_to_doctype='Item' and attached_to_name='%s' and file_url not in(select ifnull(add_image, '') from `tabStyle Item` where parent='%s')"%(item, item),as_list=1)
 	if img_list:	
 		return{
 			"img_list": img_list
