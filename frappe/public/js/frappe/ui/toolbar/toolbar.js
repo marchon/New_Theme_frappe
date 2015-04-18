@@ -42,7 +42,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
       $.each(modules_list,function(i,module){
          module_name = module
          module = frappe.get_module(module);
-         custom_module_list = {'Admin Module':'admin-charts', 'Selling':'sales-dashboard', 'HR':'', 'Accounts':'account-dashboard', 'Manufacturing':'Form/Work Management', 'Stock':'Form/MR View'}
+         custom_module_list = {'Admin Module':'admin-charts', 'Selling':'sales-dashboard', 'HR':'Module/HR', 'Accounts':'account-dashboard', 'Manufacturing':'Form/Work Management', 'Stock':'Form/MR View'}
          if(module && module_name in custom_module_list){
            $('<li class="dropdown dropdown-extended dropdown-inbox">\
            <a href="#" data-name="'+module.name+'" data-role="top_menu_item" data-link="'+module.link+'" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" href=#"'+custom_module_list[module_name]+'">\
@@ -91,9 +91,8 @@ frappe.ui.toolbar.Toolbar = Class.extend({
       })
 
       $("[data-role='top_menu_item']").on("click",function(){
-        custom_module_list = {'Admin Module':'#admin-charts', 'Selling':'#sales-dashboard', 'HR':'#', 'Accounts':'#account-dashboard', 'Manufacturing':'#Form/Work Management', 'Stock':'#Form/MR View', 'Cashier Or Reception Module': '#Form/Cashier Dashboard'}  
+        custom_module_list = {'Admin Module':'#admin-charts', 'Selling':'#sales-dashboard', 'HR':'#Module/HR', 'Accounts':'#account-dashboard', 'Manufacturing':'#Form/Work Management', 'Stock':'#Form/MR View', 'Cashier Or Reception Module': '#Form/Cashier Dashboard', "Loyalty Point Engine": "#Module/Loyalty Point Engine","Messages":"#messages","Mreq":"#Module/Mreq","Notes":"#List/Note","Projects":"#Module/Projects","Support":"#Module/Support","To Do":"#List/ToDo","Tools Management":"#Module/Tools Management"}  
         document.cookie = "module=" + $(this).attr("data-name");
-        frappe.ui.make_sidebar($(this).attr("data-name"))
         $("body").attr("refresh_navbar","false")
         window.open(custom_module_list[$(this).attr("data-name")], '_self')
       })
@@ -467,6 +466,9 @@ frappe.ui.make_sidebar = function(module) {
                 if(frappe.get_cookie("toggler_close")=="1"){
                  $('.sidebar-toggler').click();
                 }
+                frappe.ui.web_toggler();
+                frappe.ui.set_container_width();
+                frappe.ui.init_sidebar();
             }
         });
         $("body").removeClass("page-sidebar-closed");
@@ -474,8 +476,9 @@ frappe.ui.make_sidebar = function(module) {
         window.location.href = "/desk#" + frappe.get_module(module).link;
         frappe.ui.set_container_width();
     }
-    setTimeout(function() {
-        $('body').off('click', '.sidebar-toggler');
+}
+frappe.ui.init_sidebar = function(){
+  $('body').off('click', '.sidebar-toggler');
         Layout.init();
         QuickSidebar.init();
         frappe.ui.set_container_width();
@@ -488,7 +491,12 @@ frappe.ui.make_sidebar = function(module) {
         }else{
           $('ul#sidebar_items').show()
         }
-    }, 1000);
+}
+frappe.ui.show_sidebar = function(){
+  route = frappe.get_route()
+  if(route[1]||frappe.get_cookie("module")){
+    frappe.ui.make_sidebar(route[1])
+  }
 }
 frappe.item_route = function(item){
     route = ""
@@ -577,9 +585,9 @@ $(document).on("click","#menu_bar_item li",function(){
   frappe.ui.show_responsive_sidebar()
 })
 
-$(window).on('hashchange', function() {
-  frappe.ui.set_container_width(); // for immediate widnow resize
-  setTimeout(function(){
-     frappe.ui.set_container_width();
-  },500) //if page takes time to load then this code ensures its resizing
-});
+// $(window).on('hashchange', function() {
+//   frappe.ui.set_container_width(); // for immediate widnow resize
+//   setTimeout(function(){
+//      frappe.ui.set_container_width();
+//   },500) //if page takes time to load then this code ensures its resizing
+// });

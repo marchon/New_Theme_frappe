@@ -46,6 +46,7 @@ frappe.views.pageview = {
 					new frappe.views.Page(name);
 				}
 				frappe.container.change_to(name);
+				frappe.ui.show_sidebar();
 			});
 		});
 	}
