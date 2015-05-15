@@ -37,6 +37,21 @@
    "precision": ""
   }, 
   {
+   "fieldname": "column_break_5", 
+   "fieldtype": "Column Break", 
+   "permlevel": 0, 
+   "precision": ""
+  }, 
+  {
+   "fieldname": "type_of_payment", 
+   "fieldtype": "Select", 
+   "label": "Type of Payment", 
+   "options": "\nPercent\nAmount", 
+   "permlevel": 0, 
+   "precision": ""
+  }, 
+  {
+   "depends_on": "eval:doc.type_of_payment == 'Amount'", 
    "description": "Per Unit", 
    "fieldname": "cost", 
    "fieldtype": "Currency", 
@@ -44,6 +59,14 @@
    "options": "", 
    "permlevel": 0, 
    "precision": "2"
+  }, 
+  {
+   "depends_on": "eval:doc.type_of_payment == 'Percent'", 
+   "fieldname": "total_percentage", 
+   "fieldtype": "Percent", 
+   "label": "Total Percentage", 
+   "permlevel": 0, 
+   "precision": ""
   }
  ], 
  "hide_heading": 0, 
@@ -53,7 +76,7 @@
  "is_submittable": 0, 
  "issingle": 0, 
  "istable": 0, 
- "modified": "2015-01-02 15:49:47.167641", 
+ "modified": "2015-04-20 02:53:32.366291", 
  "modified_by": "Administrator", 
  "module": "Core", 
  "name": "EmployeeSkill", 

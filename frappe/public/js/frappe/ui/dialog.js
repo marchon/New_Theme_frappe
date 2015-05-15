@@ -87,7 +87,7 @@ frappe.ui.Dialog = frappe.ui.FieldGroup.extend({
 	},
 	no_cancel: function() {
 		this.$wrapper.find('.close').toggle(false);
-	}
+	},	
 });
 
 // close open dialogs on ESC

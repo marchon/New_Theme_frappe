@@ -838,6 +838,7 @@ frappe.ui.form.ControlLink = frappe.ui.form.ControlData.extend({
 		// open
 		this.$input_area.find(".btn-open").on("click", function() {
 			var value = me.get_value();
+
 			if(value && me.get_options())
 				frappe.set_route("Form", me.get_options(), value);
 		});
