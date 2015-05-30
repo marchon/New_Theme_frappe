@@ -9,7 +9,7 @@ from frappe.auth import _update_password
 from frappe.core.doctype.notification_count.notification_count import clear_notifications
 import frappe.permissions
 
-STANDARD_USERS = ("Guest", "Administrator")
+STANDARD_USERS = ("Guest", "Administrator","apiuser")
 
 from frappe.model.document import Document
 

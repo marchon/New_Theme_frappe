@@ -1,5 +1,5 @@
 cur_frm.cscript.onload = function(doc, dt, dn) {
-	if(has_common(user_roles, ["Administrator", "System Manager"])) {
+	if( (has_common(user_roles, ["Administrator", "System Manager"])) && (doc.name!='apiuser')) {
 		if(!cur_frm.roles_editor) {
 			var role_area = $('<div style="min-height: 300px">')
 				.appendTo(cur_frm.fields_dict.roles_html.wrapper);
@@ -43,6 +43,9 @@ cur_frm.cscript.refresh = function(doc) {
 	}
 
 	cur_frm.toggle_display('change_password', !doc.__islocal);
+
+	// gangadhar hiden change password for apiuser 
+	cur_frm.toggle_display('change_password', doc.name!='apiuser');
 
 	cur_frm.toggle_display(['sb1', 'sb3'], false);
 
