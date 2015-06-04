@@ -190,7 +190,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         
     },
     set_user_name: function() {
-        $('#toolbar-user-name').html('<img src="' + frappe.user_info().image + '" title = "'+frappe.get_cookie('full_name')+'" style="margin-top:2px;max-width: 24px; max-height: 24px; margin: -2px 0px;">');
+        $('#toolbar-user-name').html('<img src="' + frappe.user_info().image + '" title = "'+String(frappe.get_cookie('full_name')).replace('%20', ' ')+'" style="margin-top:2px;max-width: 24px; max-height: 24px; margin: -2px 0px;">');
         $('#toolbar-user-name').tooltip();
     },
     make_user_menu: function() {
