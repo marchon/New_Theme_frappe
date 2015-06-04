@@ -15,6 +15,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         this.make_admin_nav()
         this.make_help();
         this.make_file();
+        this.make_user_menu();
         this.make_logout()
         this.make_notification();
         this.make_home_icon()
@@ -183,9 +184,14 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         $('.navbar').append('<ul class="nav navbar-nav"><li class="dropdown">\
           <li class="dropdown dropdown-quick-sidebar-toggler"><a href="#" class="dropdown-toggle" onclick="return frappe.ui.toolbar.clear_cache();">\
             <i class="icon-fixed-width icon-refresh"></i></a></li>');
+
+        $('.navbar').append('<ul class="nav navbar-nav"><span id="toolbar-user-name"></span></a>');
+
+        
     },
     set_user_name: function() {
-        $('#toolbar-user-name').html('<img src="' + frappe.user_info().image + '" style="max-width: 24px; max-height: 24px; margin: -2px 0px;">');
+        $('#toolbar-user-name').html('<img src="' + frappe.user_info().image + '" title = "'+user+'" style="margin-top:2px;max-width: 24px; max-height: 24px; margin: -2px 0px;">');
+        $('#toolbar-user-name').tooltip();
     },
     make_user_menu: function() {
         this.set_user_name();
@@ -203,6 +209,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         })).appendTo("#toolbar-user");
     },
     make_logout: function(){
+        this.set_user_name();
         $('.navbar:last .nav:last').append('<li class="dropdown dropdown-quick-sidebar-toggler">\
           <a href="#" class="dropdown-toggle" onclick="return frappe.app.logout();">\
             <i class="fa fa-sign-out"></i>\
