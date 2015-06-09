@@ -185,7 +185,15 @@ frappe.ui.toolbar.Toolbar = Class.extend({
           <li class="dropdown dropdown-quick-sidebar-toggler"><a href="#" class="dropdown-toggle" onclick="return frappe.ui.toolbar.clear_cache();">\
             <i class="icon-fixed-width icon-refresh"></i></a></li>');
 
-        $('.navbar').append('<ul class="nav navbar-nav"><span id="toolbar-user-name"></span></a>');
+        $('.navbar').append('<ul class="nav navbar-nav">\
+      <li class="dropdown">\
+       <a class="dropdown-toggle" data-toggle="dropdown" href="#" \
+        onclick="return false;">\
+        <span id="toolbar-user-name"></span><b class="caret"></b></a>\
+       <ul class="dropdown-menu" id="toolbar-user">\
+       </ul>\
+      </li>\
+     </ul>');
 
         
     },
@@ -196,12 +204,13 @@ frappe.ui.toolbar.Toolbar = Class.extend({
     make_user_menu: function() {
         this.set_user_name();
         $(repl('<li><a href="#%(user_form)s">\
-    <i class="icon-fixed-width icon-user"></i>%(my_settings)s</a></li>\
-   <li><a href="/index"> \
+    <i style="color: rgb(123, 189, 223) !important"\
+    class="icon-fixed-width icon-user"></i>%(my_settings)s</a></li>\
+   <li style="display:none"><a href="/index"> \
     <i class="icon-fixed-width icon-globe"></i>%(website)s</a></li>\
    <li class="divider"></li>\
    <li><a href="#" onclick="return frappe.app.logout();"> \
-    <i class="icon-fixed-width icon-signout"></i>%(logout)s</a></li>', {
+    <i style="color: rgb(123, 189, 223) !important" class="icon-fixed-width icon-signout"></i>%(logout)s</a></li>', {
             "logout": __('Logout'),
             "website": __('Switch to Website'),
             "user_form": encodeURIComponent("Form/User/" + user),
@@ -210,11 +219,6 @@ frappe.ui.toolbar.Toolbar = Class.extend({
     },
     make_logout: function(){
         this.set_user_name();
-        $('.navbar:last .nav:last').append('<li class="dropdown dropdown-quick-sidebar-toggler">\
-          <a href="#" class="dropdown-toggle" onclick="return frappe.app.logout();">\
-            <i class="fa fa-sign-out"></i>\
-          </a>\
-       </li>')
     },
     make_home_icon: function(){
       $('.navbar .nav:first').prepend('<li class="dropdown dropdown-extended dropdown-inbox">\
