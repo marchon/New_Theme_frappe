@@ -70,10 +70,6 @@ frappe.Application = Class.extend({
 		this.start_notification_updates();
 
 		$(document).trigger('app_ready');
-                route = frappe.get_route()
-                if(route[1]||frappe.get_cookie("module")){
-                  frappe.ui.make_sidebar(route[1])
-                }
 	},
 
 	set_user_display_settings: function() {
@@ -276,11 +272,11 @@ window.mobilecheck = function() {
 }
 
 // We need to resize navbar and sidebar everytime screen changes
-$(window).resize(function() {
- if(window.mobilecheck()){
-   frappe.ui.set_container_width()
- }else{
-   frappe.ui.web_toggler()
-   frappe.ui.set_container_width()
- }
-});
+// $(window).resize(function() {
+//  if(window.mobilecheck()){
+//    frappe.ui.set_container_width()
+//  }else{
+//    frappe.ui.web_toggler()
+//    frappe.ui.set_container_width()
+//  }
+// });

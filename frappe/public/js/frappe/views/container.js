@@ -71,6 +71,7 @@ frappe.views.Container = Class.extend({
 		this.page._route = window.location.hash;
 		$(this.page).trigger('show');
 		scroll(0,0);
+		frappe.ui.set_container_width();
 		return this.page;
 	},
 	set_full_width: function() {

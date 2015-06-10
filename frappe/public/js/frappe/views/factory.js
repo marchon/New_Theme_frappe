@@ -21,6 +21,7 @@ frappe.views.Factory = Class.extend({
 				frappe.show_not_found(route);
 			}
 		}
+		frappe.ui.show_sidebar();
 	},
 	make_page: function(double_column) {
 		var page_name = frappe.get_route_str(),
