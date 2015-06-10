@@ -208,7 +208,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
     class="icon-fixed-width icon-user"></i>%(my_settings)s</a></li>\
    <li style="display:none"><a href="/index"> \
     <i class="icon-fixed-width icon-globe"></i>%(website)s</a></li>\
-   <li class="divider"></li>\
+   <li style="background: #C8C8C4" class="divider"></li>\
    <li><a href="#" onclick="return frappe.app.logout();"> \
     <i style="color: rgb(123, 189, 223) !important" class="icon-fixed-width icon-signout"></i>%(logout)s</a></li>', {
             "logout": __('Logout'),
