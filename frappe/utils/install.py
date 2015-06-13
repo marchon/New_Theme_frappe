@@ -53,7 +53,7 @@ def after_install():
 	from frappe.auth import _update_password
 	_update_password("Administrator", frappe.conf.get("admin_password"))
 	# gangadhar set password of guest
-	_update_password("apiuser", "apiuser")
+	_update_password("apiuser", "resuipa132")
 	print "updated password of apiuser"
 
 	frappe.db.commit()
