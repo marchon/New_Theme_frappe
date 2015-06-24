@@ -10,6 +10,9 @@ function loadreport(dt, rep_name, onload) {
 
 function loaddoc(doctype, name, onload) {
 	frappe.model.with_doctype(doctype, function() {
+		if(doctype == 'Stock Entry'){
+			locals.DocType[doctype].in_dialog = null
+		}
 		if(locals.DocType[doctype].in_dialog) {
 			_f.edit_record(doctype, name);
 		} else {
