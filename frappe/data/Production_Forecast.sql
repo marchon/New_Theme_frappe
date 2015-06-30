@@ -21,6 +21,14 @@ CREATE TABLE
     )
     ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE
+    temp_log
+    (
+        comment1 VARCHAR(500),
+        comment2 VARCHAR(500)
+    )
+    ENGINE=InnoDB DEFAULT CHARSET=latin1
+
 delimiter $$
 CREATE FUNCTION `SPLIT_STR`(
   x VARCHAR(255),
