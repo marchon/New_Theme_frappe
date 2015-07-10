@@ -27,19 +27,7 @@ CREATE TABLE
         comment1 VARCHAR(500),
         comment2 VARCHAR(500)
     )
-    ENGINE=InnoDB DEFAULT CHARSET=latin1
-
-delimiter $$
-CREATE FUNCTION `SPLIT_STR`(
-  x VARCHAR(255),
-  delim VARCHAR(12),
-  pos INT
-) RETURNS varchar(255) CHARSET latin1
-    DETERMINISTIC
-RETURN REPLACE(SUBSTRING(SUBSTRING_INDEX(x, delim, pos),
-       LENGTH(SUBSTRING_INDEX(x, delim, pos -1)) + 1),
-       delim, '');
-$$
+    ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 delimiter $$
 CREATE FUNCTION `production_forecast`(pitem_code varchar(300)) RETURNS varchar(255) CHARSET latin1
