@@ -15,7 +15,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
         this.make_admin_nav()
         this.make_help();
         this.make_file();
-        this.make_user_menu();
+  this.make_user_menu();
         this.make_logout()
         this.make_notification();
         this.make_home_icon()
@@ -92,14 +92,14 @@ frappe.ui.toolbar.Toolbar = Class.extend({
       })
 
       $("[data-role='top_menu_item']").on("click",function(){
-        custom_module_list = {'Admin Module':'#admin-charts', 'Selling':'#sales-dashboard', 'HR':'#Module/HR', 'Accounts':'#account-dashboard', 'Manufacturing':'#Form/Work Management', 'Stock':'#Form/MR View', 'Cashier Or Reception Module': '#Form/Cashier Dashboard', "Loyalty Point Engine": "#Module/Loyalty Point Engine","Messages":"#messages","Mreq":"#Module/Mreq","Notes":"#List/Note","Projects":"#Module/Projects","Support":"#Module/Support","To Do":"#List/ToDo","Tools Management":"#Module/Tools Management"}  
+        custom_module_list = {'Admin Module':'#admin-charts', 'Selling':'#sales-dashboard', 'HR':'#List/Employee', 'Accounts':'#account-dashboard', 'Manufacturing':'#Form/Work Management', 'Stock':'#Form/MR View', 'Cashier Or Reception Module': '#Form/Cashier Dashboard', "Loyalty Point Engine": "#Module/Loyalty Point Engine","Messages":"#messages","Mreq":"#Module/Mreq","Notes":"#List/Note","Projects":"#Module/Projects","Support":"#Module/Support","To Do":"#List/ToDo","Tools Management":"#Module/Tools Management"}  
         document.cookie = "module=" + $(this).attr("data-name");
         $("body").attr("refresh_navbar","false")
         window.open(custom_module_list[$(this).attr("data-name")], '_self')
       })
     },
     make_admin_nav: function(){
-        $('#before_header').after('<div class="navbar navbar-inverse navbar-fixed-top" style="z-index: 99999;">\
+        $('#before_header').after('<div class="navbar navbar-inverse navbar-fixed-top" style="z-index: 999;">\
             <ul class="nav navbar-nav" id="menu_bar_item">\
         </div>');
         this.make_admin_menu_items()
@@ -194,8 +194,6 @@ frappe.ui.toolbar.Toolbar = Class.extend({
        </ul>\
       </li>\
      </ul>');
-
-        
     },
     set_user_name: function() {
         $('#toolbar-user-name').html('<img src="' + frappe.user_info().image + '" title = "'+decodeURIComponent(frappe.get_cookie('full_name'))+'" style="margin-top:2px;max-width: 24px; max-height: 24px; margin: -2px 0px;">');
@@ -435,6 +433,7 @@ frappe.ui.make_sidebar = function(module) {
                 module: module
             },
             callback: function(r) {
+                $(".page-sidebar-wrapper").remove();
                 $(".page-container").css("margin-left", "50px")
                 $('<div class="page-sidebar-wrapper" style="width: 8%;">\
                  <div class="page-sidebar navbar-collapse collapse" style=" background-color:#364150;">\
@@ -504,10 +503,11 @@ frappe.ui.init_sidebar = function(){
         }
 }
 frappe.ui.show_sidebar = function(){
-  route = frappe.get_route()
-  if(route[1]||frappe.get_cookie("module")){
-    frappe.ui.make_sidebar(route[1])
-  }
+  // route = frappe.get_route()
+  // if(route[1]||frappe.get_cookie("module")){
+  //   frappe.ui.make_sidebar(route[1])
+  // }
+  frappe.ui.make_sidebar(frappe.get_cookie("module"));
 }
 frappe.item_route = function(item){
     route = ""
@@ -546,7 +546,14 @@ $(document).on("click",".sidebar-toggler",function(){
 })
 
 $(document).on("click","#home_link",function(){
-  document.cookie = "module=Admin Module";
+  var admin = $.inArray("System Manager",user_roles);
+  var user_module;
+  if(admin>=0){
+    user_module = "Admin Module"
+  }else{
+    user_module = frappe.user.get_desktop_items()[0];
+  }
+  document.cookie = "module = "+user_module;
   window.location.href = "/desk";
 })
 
@@ -561,7 +568,7 @@ $(document).on("click","#sidebar_items li",function(){
   }else{
     frappe.ui.show_responsive_sidebar();
   }
-  document.cookie = 'module="Admin Module"';
+  //document.cookie = 'module="Admin Module"';
   return(0);
 })
 $(document).ready(function(){
