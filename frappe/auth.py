@@ -60,7 +60,7 @@ class HTTPRequest:
 		if not frappe.conf.get("deny_multiple_sessions"):
 			return
 
-		if frappe.session.user != "Guest":
+		if frappe.session.user not in ["Guest", "Administrator"]:
 			clear_sessions(frappe.session.user, keep_current=True)
 
 
