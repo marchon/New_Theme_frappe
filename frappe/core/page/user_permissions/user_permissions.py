@@ -12,6 +12,8 @@ from frappe.defaults import clear_default
 
 @frappe.whitelist()
 def get_users_and_links():
+	if frappe.local.site_path.split('/')[1] == 'demo.tailorpad.com':
+		return None
 	return {
 		"users": get_system_users(),
 		"link_fields": get_doctypes_for_user_permissions()
