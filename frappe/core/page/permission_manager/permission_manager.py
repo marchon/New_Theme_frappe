@@ -10,7 +10,7 @@ from frappe.core.doctype.notification_count.notification_count import delete_not
 
 @frappe.whitelist()
 def get_roles_and_doctypes():
-	if frappe.local.site_path.split('/')[1] == 'test':
+	if frappe.local.site_path.split('/')[1] == 'demo.tailorpad.com':
 		return None
 	frappe.only_for("System Manager")
 	send_translations(frappe.get_lang_dict("doctype", "DocPerm"))
