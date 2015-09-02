@@ -9,6 +9,8 @@ from frappe.utils import cint
 
 @frappe.whitelist()
 def get_list(arg=None):
+	if frappe.local.site_path.split('/')[1] == 'demo.tailorpad.com':
+		return None
 	"""get list of messages"""
 	frappe.form_dict['limit_start'] = int(frappe.form_dict['limit_start'])
 	frappe.form_dict['limit_page_length'] = int(frappe.form_dict['limit_page_length'])
@@ -46,6 +48,8 @@ def get_list(arg=None):
 
 @frappe.whitelist()
 def get_active_users():
+	if frappe.local.site_path.split('/')[1] == 'demo.tailorpad.com':
+		return None
 	return frappe.db.sql("""select name,
 		(select count(*) from tabSessions where user=tabUser.name
 			and timediff(now(), lastupdate) < time("01:00:00")) as has_session
