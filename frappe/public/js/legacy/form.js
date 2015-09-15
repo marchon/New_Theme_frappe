@@ -382,6 +382,7 @@ _f.Frm.prototype.refresh = function(docname) {
 		}
 
 	}
+	frappe.ui.set_container_width();
 }
 
 _f.Frm.prototype.render_form = function() {

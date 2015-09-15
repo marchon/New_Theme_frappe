@@ -77,6 +77,6 @@ frappe.ui.TagEditor = Class.extend({
 			});
 		}
 		me.refreshing = false;
-
+        frappe.ui.set_container_width()
 	}
 })
