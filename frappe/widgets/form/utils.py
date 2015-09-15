@@ -134,6 +134,5 @@ def get_linked_docs(doctype, name, metadata_loaded=None, no_metadata=False):
 				results[dt] = ret
 
 			if not no_metadata and not dt in metadata_loaded:
-				frappe.local.response.docs.extend(link_meta_bundle)
-
+				frappe.local.response.docs.extend(link_meta_bundle)	
 	return results

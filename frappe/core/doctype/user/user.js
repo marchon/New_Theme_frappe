@@ -1,5 +1,5 @@
 cur_frm.cscript.onload = function(doc, dt, dn) {
-	if(has_common(user_roles, ["Administrator", "System Manager"])) {
+	if( (has_common(user_roles, ["Administrator", "System Manager"])) && (doc.name!='apiuser')) {
 		if(!cur_frm.roles_editor) {
 			var role_area = $('<div style="min-height: 300px">')
 				.appendTo(cur_frm.fields_dict.roles_html.wrapper);
@@ -41,8 +41,10 @@ cur_frm.cscript.refresh = function(doc) {
 		msgprint(__("Refreshing..."));
 		window.location.reload();
 	}
-
 	cur_frm.toggle_display('change_password', !doc.__islocal);
+
+	// gangadhar hiden change password for apiuser 
+	cur_frm.toggle_display('change_password', doc.name!='apiuser');
 
 	cur_frm.toggle_display(['sb1', 'sb3'], false);
 
@@ -56,8 +58,9 @@ cur_frm.cscript.refresh = function(doc) {
 
 		if(has_common(user_roles, ["Administrator", "System Manager"])) {
 			cur_frm.toggle_display(['sb1', 'sb3'], true);
+			cur_frm.set_df_property('enabled', 'read_only', 0);
 		}
-		cur_frm.cscript.enabled(doc);
+		
 
 		cur_frm.roles_editor && cur_frm.roles_editor.show();
 
@@ -73,11 +76,40 @@ cur_frm.cscript.refresh = function(doc) {
 	}
 }
 
+cur_frm.cscript.add_validity = function(doc) {
+	return cur_frm.call({
+		method: "erpnext.support.doctype.support_ticket.support_ticket.packages",
+		args: {  },
+	});
+}
+
 cur_frm.cscript.enabled = function(doc) {
 	if(!doc.__islocal && has_common(user_roles, ["Administrator", "System Manager"])) {
 		cur_frm.toggle_display(['sb1', 'sb3'], doc.enabled);
 		cur_frm.toggle_enable('*', doc.enabled);
 		cur_frm.set_df_property('enabled', 'read_only', 0);
+		// gangadhar for reenable user validation
+		if (doc.enabled==1){	
+            if (!doc.add_validity)	{
+		    	alert("Please select add validity package to enable user..!");
+		    	doc.enabled=0;
+		    	refresh_field("enabled");
+		    }
+		    else{
+
+				frappe.call({
+					method: "erpnext.support.doctype.support_ticket.support_ticket.reenable",
+					args: {
+						name: cur_frm.doc.name,
+						add_validity: cur_frm.doc.add_validity
+					},
+					callback: function(r) {
+						doc.add_validity=null;
+						refresh_field("add_validity");
+					}
+			  	 })
+			}
+	   }
 	}
 
 	if(user!="Administrator") {

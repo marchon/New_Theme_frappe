@@ -48,7 +48,6 @@ frappe.ui.form.LinkedWith = Class.extend({
 			me.dialog.fields_dict.list.$wrapper.html('<div class="progress progress-striped active">\
 					<div class="progress-bar" style="width: 100%;">\
 					</div></div>');
-			
 			frappe.call({
 				method:"frappe.widgets.form.utils.get_linked_docs",
 				args: {
@@ -58,7 +57,6 @@ frappe.ui.form.LinkedWith = Class.extend({
 				},
 				callback: function(r) {
 					var parent = me.dialog.fields_dict.list.$wrapper.empty();
-
 					if(keys(r.message || {}).length) {
 						$.each(keys(r.message).sort(), function(i, doctype) {							
 							var listview = frappe.views.get_listview(doctype, me);

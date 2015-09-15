@@ -686,7 +686,6 @@ frappe.views.QueryReport = Class.extend({
 			table_header.push($(this).text())
 		})
 		table_data.unshift(table_header)
-		console.log(table_data)
 
 
     	var tbody = '<html><head></head><body><div><table style="table-layout:fixed;border:1px solid #A09F9F;border-collapse: collapse">';
@@ -719,7 +718,6 @@ frappe.views.QueryReport = Class.extend({
 
           })
 
-    	console.log(tbody)
 
 	frappe.call({
 		method:"erpnext.templates.pages.report_pdf.download_report_pdf",

@@ -53,6 +53,16 @@ class HTTPRequest:
 		# run login triggers
 		if frappe.form_dict.get('cmd')=='login':
 			frappe.local.login_manager.run_trigger('on_session_creation')
+			self.clear_active_sessions()
+
+	# add "deny_multiple_sessions":1 in site_config.json
+	def clear_active_sessions(self):
+		if not frappe.conf.get("deny_multiple_sessions"):
+			return
+
+		if frappe.session.user not in ["Guest", "Administrator"]:
+			clear_sessions(frappe.session.user, keep_current=True)
+
 
 	def set_lang(self, lang):
 		from frappe.translate import guess_language_from_http_header
