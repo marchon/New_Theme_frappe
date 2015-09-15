@@ -50,7 +50,7 @@ $("<div id='attendance2' ><table class='table table-bordered' style='height:150p
 
 //for chat tool
 $("	<div class='user-settings'  id ='chat_tab'  style='border:1px solid #ddd; height: 150px;margin-bottom:5px; width:95%;overflow:auto'>\
-	<h4 style='margin-left:10px;'>Tools</h4><hr>\
+	<h4 style='margin-left:10px;'>Tools</h4><hr style='border-color:rgb(213, 210, 210)'>\
 	<a href='#messages/' style='margin-left:10px;'><i class='icon-comments'></i>&nbsp;&nbsp;<b>Chat Tool</a>\
 	<br><a href='#Calendar%2FEvent/' style='margin-left:10px;'><i class='icon-calendar'></i>&nbsp;&nbsp;<b>Calendar</a>\
 	<br><a href='#mail-ticker-manager/' style='margin-left:10px;'><i class='icon-mail-reply-all'></i>&nbsp;&nbsp;<b>Ticker Tool</a>\

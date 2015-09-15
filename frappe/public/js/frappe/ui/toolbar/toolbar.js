@@ -79,7 +79,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
       $.each(modules_list.slice(5,(modules_list.length-1)),function(i,module){
          module_name = module
          module = frappe.get_module(module);
-         custom_module_list = {'Cashier Or Reception Module':'1', 'Messages':'2', 'Mreq':'3', 'Notes':'4', 'Projects':'5', 'Support':'6', 'To Do':'7', 'Tools Management':'8', 'Loyalty Point Engine':'9'}
+         custom_module_list = {'Cashier Or Reception Module':'1', 'Buying':'2', 'Mreq':'3', 'Notes':'4', 'Projects':'5', 'Support':'6', 'To Do':'7', 'Tools Management':'8', 'Loyalty Point Engine':'9', 'Messages':'10'}
          
          if(module && module_name in custom_module_list){
            $('<li>\
@@ -92,7 +92,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
       })
 
       $("[data-role='top_menu_item']").on("click",function(){
-        custom_module_list = {'Admin Module':'#admin-charts', 'Selling':'#sales-dashboard', 'HR':'#List/Employee', 'Accounts':'#account-dashboard', 'Manufacturing':'#Form/Work Management', 'Stock':'#Form/MR View', 'Cashier Or Reception Module': '#Form/Cashier Dashboard', "Loyalty Point Engine": "#Module/Loyalty Point Engine","Messages":"#messages","Mreq":"#Module/Mreq","Notes":"#List/Note","Projects":"#Module/Projects","Support":"#Module/Support","To Do":"#List/ToDo","Tools Management":"#Module/Tools Management"}  
+        custom_module_list = {'Admin Module':'#admin-charts', 'Selling':'#sales-dashboard', 'HR':'#List/Employee', 'Accounts':'#account-dashboard', 'Manufacturing':'#Form/Work Management', 'Stock':'#Form/MR View', 'Cashier Or Reception Module': '#Form/Cashier Dashboard', "Loyalty Point Engine": "#Module/Loyalty Point Engine","Messages":"#messages","Mreq":"#Module/Mreq","Notes":"#List/Note","Projects":"#Module/Projects","Support":"#Module/Support","To Do":"#List/ToDo","Tools Management":"#Module/Tools Management", "Buying": "#List/Supplier"}
         document.cookie = "module=" + $(this).attr("data-name");
         $("body").attr("refresh_navbar","false")
         window.open(custom_module_list[$(this).attr("data-name")], '_self')
