@@ -91,14 +91,30 @@ frappe.ui.toolbar.Toolbar = Class.extend({
       })
 
       $("[data-role='top_menu_item']").on("click",function(){
-        custom_module_list = {'Admin Module':'#admin-charts', 'Selling':'#sales-dashboard', 'HR':'#List/Employee', 'Accounts':'#account-dashboard', 'Manufacturing':'#Form/Work Management', 'Stock':'#Form/MR View', 'Cashier Or Reception Module': '#Form/Cashier Dashboard', "Loyalty Point Engine": "#Module/Loyalty Point Engine","Messages":"#messages","Mreq":"#Module/Mreq","Notes":"#List/Note","Projects":"#Module/Projects","Support":"#Module/Support","To Do":"#List/ToDo","Tools Management":"#Module/Tools Management"}  
+        custom_module_list = {
+                'Admin Module': '#admin-charts',
+                'Selling': '#sales-dashboard',
+                'HR': '#List/Employee',
+                'Accounts': '#account-dashboard',
+                'Manufacturing': '#Form/Work Management',
+                'Stock': '#Form/MR View',
+                'Cashier Or Reception Module': '#Form/Cashier Dashboard',
+                "Loyalty Point Engine": "#List/Point Transaction",
+                "Messages": "#messages",
+                "Mreq": "##Form/MR View",
+                "Notes": "#List/Note",
+                "Projects": "#List/Task",
+                "Support": "#List/Support Ticket",
+                "To Do": "#List/ToDo",
+                "Tools Management": "#List/Request Of Tools"
+            }
         document.cookie = "module=" + $(this).attr("data-name");
         $("body").attr("refresh_navbar","false")
         window.open(custom_module_list[$(this).attr("data-name")], '_self')
       })
     },
     make_admin_nav: function(){
-        $('#before_header').after('<div class="navbar navbar-inverse navbar-fixed-top" style="z-index: 99999;">\
+        $('#before_header').after('<div class="navbar navbar-inverse navbar-fixed-top" style="z-index: 1000;">\
             <ul class="nav navbar-nav" id="menu_bar_item">\
         </div>');
         this.make_admin_menu_items()
@@ -405,7 +421,7 @@ frappe.ui.web_toggler = function(){
   $(".page-sidebar-wrapper").removeClass("navbar") 
   $(".page-sidebar-wrapper").removeClass("navbar-inverse")
   $(".page-sidebar").addClass("collapse")
-  $("#sidebar_items").css('position', 'absolute').css("top", "0px").css("bottom", "0px").css("z-index", "9999").css("height", $(document).height()+"px").css("width", "193px").css("display", "block");
+  $("#sidebar_items").css('position', 'absolute').css("top", "0px").css("bottom", "0px").css("z-index", "100").css("height", $(document).height()+"px").css("width", "193px").css("display", "block");
   $(".page-sidebar-wrapper").css('width', "8%").css("display", "block");
   $("header").css("background-color", "#444")
   $(".page-sidebar").css("width", "100%")
@@ -415,6 +431,9 @@ frappe.ui.web_toggler = function(){
 }
 frappe.ui.make_sidebar = function(module) {
     module = (frappe.get_cookie("module"));
+    if(!module){
+      module = frappe.ui.default_sidebar_menu_for_role(frappe.boot.user.roles[0]);
+    }
     $(".page-sidebar-wrapper").remove()
     if ((frappe.modules[module] && frappe.modules[module].type) == "module") {
         document.cookie = "module=" + module;
@@ -428,7 +447,7 @@ frappe.ui.make_sidebar = function(module) {
                 $(".page-container").css("margin-left", "50px")
                 $('<div class="page-sidebar-wrapper" style="width: 8%;">\
                  <div class="page-sidebar navbar-collapse collapse" style=" background-color:#364150;">\
-                   <ul id="sidebar_items" class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="position: absolute; top: 0px; bottom: 0px;width: 193px; z-index: 9999; display: none;">\
+                   <ul id="sidebar_items" class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="position: absolute; top: 0px; bottom: 0px;width: 193px; display: none;">\
                      <li class="sidebar-toggler-wrapper">\
                         <div class="sidebar-toggler">\
                         </div>\
@@ -499,6 +518,10 @@ frappe.ui.show_sidebar = function(){
   //   frappe.ui.make_sidebar(route[1])
   // }
   frappe.ui.make_sidebar(frappe.get_cookie("module"));
+}
+frappe.ui.role_sidebar_mapping = {"Accounts User":"Accounts","Accountant":"Accounts","Accounts Manager":"Accounts","Auditor":"Accounts","Cashier":"Cashier Or Reception Module","HR Manager":"HR","HR User":"HR","Expense Approver":"HR","Leave Approver":"HR","Maintenance Manager":"Support","Maintenance User":"Support","Support Team":"Support","Manufacturing Manager":"Manufacturing","Manufacturing User":"Manufacturing","Material Manager":"Stock","Material User":"Stock","Projects User":"Projects","Projects Manager":"Projects","Project":"Projects","Purchase Manager":"Buying","Purchase User":"Buying","Quality Manager":"Buying","Sales Manager":"Selling","Sales User":"Selling","System Manager":"Admin Module","Administrator":"Admin Module","All":"Admin Module","Blogger":"Admin Module","Guest":"Admin Module","Report Manager":"Admin Module","Support Manager":"Support","Website Manager":"Website","Analytics":"Account","Material Master Manager":"Buying","Purchase Master Manager":"Buying","Sales Master Manager":"Selling"}
+frappe.ui.default_sidebar_menu_for_role = function(rl){
+  return frappe.ui.role_sidebar_mapping[rl];
 }
 frappe.item_route = function(item){
     route = ""

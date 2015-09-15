@@ -255,8 +255,9 @@ frappe.Application = Class.extend({
 
 	},
 	delete_cookies: function(){
-      document.cookie = 'module' + 'Admin Module';
-      document.cookie = 'toggler_close' + '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+      document.cookie = "module=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+    	document.cookie = "Admin Module=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+    	document.cookie = "module=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
 	},
 
 	run_startup_js: function() {
