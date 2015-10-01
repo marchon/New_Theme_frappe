@@ -7,7 +7,14 @@ import memcache, frappe
 class MClient(memcache.Client):
 	"""memcache client that will automatically prefix conf.db_name"""
 	def n(self, key):
-		return (frappe.conf.db_name + ":" + key.replace(" ", "_")).encode('utf-8')
+		try:
+			return (frappe.conf.db_name + ":" + key.replace(" ", "_")).encode('utf-8')
+		except Exception, e:
+			print e
+			data = frappe.new_doc('Scheduler Log')
+			data.method = frappe.conf.db_name + ' , ' + key
+			data.error = e
+			data.save(ignore_permission=True)
 	
 	def set_value(self, key, val):
 		frappe.local.cache[key] = val
