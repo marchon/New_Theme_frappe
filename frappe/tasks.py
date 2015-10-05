@@ -107,6 +107,7 @@ def enqueue_events_for_site(site):
 		if frappe.local.conf.maintenance_mode:
 			return
 		frappe.connect(site=site)
+		exec_cmd("source ./env/bin/activate", cwd = "/home/erpnext/admin_site/frappe-bench/")
 		exec_cmd("frappe --use %s"%(site), cwd = "/home/erpnext/admin_site/frappe-bench/sites")	
 		enqueue_events(site)
 	finally:
