@@ -97,7 +97,7 @@ def scheduler_task(site, event, handler, now=False):
 @celery_task()
 def enqueue_scheduler_events():
 	for site in get_sites():
-		exec_cmd("frappe --use %s"%(site), cwd = "/home/erpnext/admin_site/frappe-bench/sites")		
+		exec_cmd("../env/bin/frappe --use %s"%(site), cwd = "/home/erpnext/admin_site/frappe-bench/sites")	
 		enqueue_events_for_site.delay(site=site)
 
 @celery_task()
