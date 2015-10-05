@@ -97,8 +97,9 @@ def scheduler_task(site, event, handler, now=False):
 @celery_task()
 def enqueue_scheduler_events():
 	for site in get_sites():
-		exec_cmd("../env/bin/frappe --use %s"%(site), cwd = "/home/erpnext/admin_site/frappe-bench/sites")	
-		enqueue_events_for_site.delay(site=site)
+		if site not in ['tailorpad.com', 'testfirst']:
+			exec_cmd("../env/bin/frappe --use %s"%(site), cwd = "/home/erpnext/admin_site/frappe-bench/sites")	
+			enqueue_events_for_site.delay(site=site)
 
 @celery_task()
 def enqueue_events_for_site(site):
@@ -107,8 +108,9 @@ def enqueue_events_for_site(site):
 		if frappe.local.conf.maintenance_mode:
 			return
 		frappe.connect(site=site)
-		exec_cmd("../env/bin/frappe --use %s"%(site), cwd = "/home/erpnext/admin_site/frappe-bench/sites")	
-		enqueue_events(site)
+		if site not in ['tailorpad.com', 'testfirst']:
+			exec_cmd("../env/bin/frappe --use %s"%(site), cwd = "/home/erpnext/admin_site/frappe-bench/sites")	
+			enqueue_events(site)
 	finally:
 		frappe.destroy()
 
