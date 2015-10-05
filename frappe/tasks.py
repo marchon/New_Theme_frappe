@@ -3,6 +3,7 @@
 
 from __future__ import unicode_literals
 import frappe
+import subprocess
 from frappe.utils.scheduler import enqueue_events
 from frappe.celery_app import get_celery, celery_task, task_logger, LONGJOBS_PREFIX
 from frappe.cli import get_sites
