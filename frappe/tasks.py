@@ -96,6 +96,7 @@ def scheduler_task(site, event, handler, now=False):
 @celery_task()
 def enqueue_scheduler_events():
 	for site in get_sites():
+		exec_cmd("frappe --use %s"%(site), cwd = "/home/erpnext/admin_site/frappe-bench/sites")		
 		enqueue_events_for_site.delay(site=site)
 
 @celery_task()
@@ -108,3 +109,10 @@ def enqueue_events_for_site(site):
 		enqueue_events(site)
 	finally:
 		frappe.destroy()
+
+def exec_cmd(cmd, cwd='.'):
+	try:
+		subprocess.check_call(cmd, cwd=cwd, shell=True)
+	except subprocess.CalledProcessError, e:
+		print "Error:", getattr(e, "output", None) or getattr(e, "error", None)
+		raise
