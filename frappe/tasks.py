@@ -70,12 +70,14 @@ def scheduler_task(site, event, handler, now=False):
 	traceback = ""
 	task_logger.info('running {handler} for {site} for event: {event}'.format(handler=handler, site=site, event=event))
 	try:
-		frappe.init(site=site)
-		if not create_lock(handler):
-			return
-		if not now:
-			frappe.connect(site=site)
-		frappe.get_attr(handler)()
+		if site not in ['tailorpad.com', 'testfirst']:
+			exec_cmd("../env/bin/frappe --use %s"%(site), cwd = "/home/erpnext/admin_site/frappe-bench/sites")
+			frappe.init(site=site)
+			if not create_lock(handler):
+				return
+			if not now:
+				frappe.connect(site=site)
+			frappe.get_attr(handler)()
 
 	except Exception:
 		frappe.db.rollback()
