@@ -36,5 +36,6 @@ def delete_lock(name):
 def get_lock_path(name):
 	name = name.lower()
 	locks_dir = 'locks'
+	print locks_dir, name
 	lock_path = get_site_path(locks_dir, name + '.lock')
 	return lock_path
