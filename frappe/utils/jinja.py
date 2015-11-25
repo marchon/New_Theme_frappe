@@ -28,6 +28,7 @@ def render_template(template, context):
 def get_allowed_functions_for_jenv():
 	import frappe
 	import frappe.utils
+	from frappe.utils import getdate, get_datetime
 	import frappe.utils.data
 
 	datautils = {}
@@ -58,6 +59,8 @@ def get_allowed_functions_for_jenv():
 			"db": {
 				"get_value": frappe.db.get_value,
 				"sql": frappe.db.sql,
+				"convert_date" : getdate,
+				"convert_datetime" : get_datetime,
 			},
 			"get_list": frappe.get_list,
 			"get_all": frappe.get_all,
